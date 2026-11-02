@@ -10,14 +10,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
   :root {
-    --fondo: #F2F6F5; --papel: #FFFFFF; --tinta: #1E2B2F; --suave: #5D6F73; --linea: #DCE5E3;
+    --fondo: #E6F0EC; --papel: #FFFFFF; --tinta: #1E2B2F; --suave: #5D6F73; --linea: #DCE5E3;
     --pagado: #E8833A; --organico: #3F8F89; --mensajes: #7A5BA6; --mostaza: #E3B04B; --alerta: #C8553D;
     --pagado-suave: #FCEBDD; --mensajes-suave: #EEE7F6;
     color-scheme: light;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --fondo: #142024; --papel: #1C2B30; --tinta: #EEF3F2; --suave: #A6B7BA; --linea: #2E4146;
+      --fondo: #0E2B2C; --papel: #1C2B30; --tinta: #EEF3F2; --suave: #A6B7BA; --linea: #2E4146;
       --pagado: #F29A57; --organico: #5FB5AE; --mensajes: #A487CF; --mostaza: #EBC26A; --alerta: #E57A62;
       --pagado-suave: #3A2B22; --mensajes-suave: #2E2840;
       color-scheme: dark;
@@ -96,6 +96,13 @@
   .sugerencia li { margin-bottom: 6px; max-width: 75ch; }
   .metodo { font-size: .9rem; color: var(--suave); max-width: 75ch; }
   .metodo li { margin-bottom: 6px; }
+  .resumen { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 2px; background: var(--linea); border-radius: 22px; overflow: hidden; }
+  .resumen div { background: var(--papel); padding: 20px 22px; }
+  .resumen b { display: block; font-family: "Baloo 2", sans-serif; font-size: 2rem; line-height: 1.1; }
+  .resumen span { color: var(--suave); font-size: .9rem; }
+  .parte { margin-top: 72px; padding-top: 22px; border-top: 3px solid var(--tinta); }
+  .parte h2 { font-size: clamp(1.8rem, 4vw, 2.4rem); }
+  .parte + section, .parte + .origen { margin-top: 24px; }
   .error { background: var(--papel); border-radius: 18px; padding: 24px; }
 </style>
 </head>
@@ -151,6 +158,7 @@ function pintar(D) {
   const pautados = posts.filter(p => p.pautado);
   const deAgencia = p => p.hechoPor !== 'PawZen';
   const deCliente = posts.filter(p => !deAgencia(p));
+  const vistasAgencia = sumar(posts.filter(p => p.hechoPor !== 'PawZen'), p => p.vistas);
   const videos = posts.filter(p => deAgencia(p) && /reel|video/i.test(p.formato))
     .sort((a, b) => (b.vistas ?? b.alcance ?? 0) - (a.vistas ?? a.alcance ?? 0)).slice(0, 3);
 
@@ -160,6 +168,52 @@ function pintar(D) {
     <div><p class="sub">${esc(D.instagram)}</p><h1>${esc(D.cliente)}, ${nombreMes} ${anio}</h1></div>
     <p class="sub">Del 1 al ${ultimo} de ${nombreMes} de ${anio} · Meta Ads e Instagram</p>
   </header>
+
+  <div class="resumen">
+    <div><b>${total >= 0 ? '+' : ''}${fmt(total)}</b><span>Seguidores netos (${fmt(D.seguidoresInicio)} → ${fmt(D.seguidoresCierre)})</span></div>
+    <div><b>${fmt(posts.length)}</b><span>Publicaciones (${fmt(posts.length - deCliente.length)} de la agencia)</span></div>
+    <div><b>${fmt(vistasAgencia)}</b><span>Vistas de los contenidos de la agencia</span></div>
+    <div><b>${dinero(gasto)}</b><span>Inversión en Meta Ads</span></div>
+    <div><b>${fmt(convTotal)}</b><span>Conversaciones por anuncios</span></div>
+    <div><b>${fmt(citas)} · ${pct(tasa)}</b><span>Citas y conversión a cita (meta ${pct(metaT, 0)})</span></div>
+  </div>
+
+  <div class="parte"><h2>Contenido</h2><p class="sub">Qué se publicó en ${nombreMes} y cómo le fue a cada pieza.</p></div>
+
+  <section>
+    <h2>Top 3 videos del mes</h2>
+    <p class="sub">Reels hechos por la agencia y publicados en ${nombreMes}, ordenados por vistas.${deCliente.length ? ` No incluye ${deCliente.length === 1 ? 'el contenido hecho' : 'los ' + deCliente.length + ' contenidos hechos'} por PawZen, que aparecen en la tabla de abajo.` : ''}</p>
+    ${videos.length ? `<div class="podio">${videos.map((p, i) => `<article class="video">
+      <p class="lugar">${i + 1}</p>
+      <a class="texto" href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.texto || 'Ver video')}</a>
+      <p class="sub">${esc(p.fecha.slice(8))}/${esc(p.fecha.slice(5, 7))} · ${esc(p.pilar || 'sin pilar')} · ${p.pautado ? `<span class="etq" style="background:var(--pagado)">Pautado ${dinero(p.gastoPauta)}</span>` : 'Orgánico'}</p>
+      <div class="datos">
+        <div><b>${fmt(p.vistas)}</b><span>Vistas</span></div>
+        <div><b>${fmt(p.alcance)}</b><span>Alcance</span></div>
+        <div><b>${fmt(p.interacciones)}</b><span>Interacciones</span></div>
+        <div><b>${pct(p.engagement)}</b><span>Engagement</span></div>
+      </div></article>`).join('')}</div>` : '<p class="caja sub" style="margin-top:14px">No hay reels publicados en el periodo.</p>'}
+  </section>
+
+  <section>
+    <h2>Todos los contenidos</h2>
+    <p class="sub">${fmt(posts.length)} publicaciones en ${nombreMes} (${fmt(posts.length - deCliente.length)} de la agencia, ${fmt(deCliente.length)} de PawZen); ${fmt(pautados.length)} se usaron en pauta. Resultados generales al ${esc(D.postsMedidosEl)}, ordenados por alcance.</p>
+    <div class="tabla"><table>
+      <thead><tr><th>Fecha</th><th>Post</th><th>Hecho por</th><th>Formato</th><th>Pilar</th><th>Pauta</th><th>Vistas</th><th>Alcance</th>
+        <th>Interacciones</th><th>Guardados</th><th>Compartidos</th><th>Engagement</th><th>Seguidores</th></tr></thead>
+      <tbody>${posts.slice().sort((a, b) => (b.alcance || 0) - (a.alcance || 0)).map(p => `<tr>
+        <td>${esc(p.fecha.slice(8))}/${esc(p.fecha.slice(5, 7))}</td>
+        <td class="texto"><a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.texto || 'Ver post')}</a></td>
+        <td>${deAgencia(p) ? 'Agencia' : 'PawZen'}</td><td>${esc(p.formato)}</td><td>${esc(p.pilar) || '—'}</td>
+        <td>${p.pautado ? `<span class="etq" style="background:var(--pagado)">${dinero(p.gastoPauta)}</span>` : 'Orgánico'}</td>
+        <td>${fmt(p.vistas)}</td><td>${fmt(p.alcance)}</td><td>${fmt(p.interacciones)}</td>
+        <td>${fmt(p.guardados)}</td><td>${fmt(p.compartidos)}</td><td>${pct(p.engagement)}</td>
+        <td>${p.seguidores == null ? '<span class="sub">no aplica</span>' : fmt(p.seguidores)}</td></tr>`).join('')}</tbody>
+    </table></div>
+    ${tablaPilares(posts)}
+  </section>
+
+  <div class="parte"><h2>Tráfico con Meta Ads</h2><p class="sub">Inversión, seguidores, conversaciones y citas que trajeron los anuncios.</p></div>
 
   <div class="origen">
     <h2>¿De dónde llegaron los nuevos seguidores?</h2>
@@ -231,39 +285,6 @@ function pintar(D) {
   </section>
 
   <section>
-    <h2>Top 3 videos del mes</h2>
-    <p class="sub">Reels hechos por la agencia y publicados en ${nombreMes}, ordenados por vistas.${deCliente.length ? ` No incluye ${deCliente.length === 1 ? 'el contenido hecho' : 'los ' + deCliente.length + ' contenidos hechos'} por PawZen, que aparecen en la tabla de abajo.` : ''}</p>
-    ${videos.length ? `<div class="podio">${videos.map((p, i) => `<article class="video">
-      <p class="lugar">${i + 1}</p>
-      <a class="texto" href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.texto || 'Ver video')}</a>
-      <p class="sub">${esc(p.fecha.slice(8))}/${esc(p.fecha.slice(5, 7))} · ${esc(p.pilar || 'sin pilar')} · ${p.pautado ? `<span class="etq" style="background:var(--pagado)">Pautado ${dinero(p.gastoPauta)}</span>` : 'Orgánico'}</p>
-      <div class="datos">
-        <div><b>${fmt(p.vistas)}</b><span>Vistas</span></div>
-        <div><b>${fmt(p.alcance)}</b><span>Alcance</span></div>
-        <div><b>${fmt(p.interacciones)}</b><span>Interacciones</span></div>
-        <div><b>${pct(p.engagement)}</b><span>Engagement</span></div>
-      </div></article>`).join('')}</div>` : '<p class="caja sub" style="margin-top:14px">No hay reels publicados en el periodo.</p>'}
-  </section>
-
-  <section>
-    <h2>Todos los contenidos</h2>
-    <p class="sub">${fmt(posts.length)} publicaciones en ${nombreMes} (${fmt(posts.length - deCliente.length)} de la agencia, ${fmt(deCliente.length)} de PawZen); ${fmt(pautados.length)} se usaron en pauta. Resultados generales al ${esc(D.postsMedidosEl)}, ordenados por alcance.</p>
-    <div class="tabla"><table>
-      <thead><tr><th>Fecha</th><th>Post</th><th>Hecho por</th><th>Formato</th><th>Pilar</th><th>Pauta</th><th>Vistas</th><th>Alcance</th>
-        <th>Interacciones</th><th>Guardados</th><th>Compartidos</th><th>Engagement</th><th>Seguidores</th></tr></thead>
-      <tbody>${posts.slice().sort((a, b) => (b.alcance || 0) - (a.alcance || 0)).map(p => `<tr>
-        <td>${esc(p.fecha.slice(8))}/${esc(p.fecha.slice(5, 7))}</td>
-        <td class="texto"><a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.texto || 'Ver post')}</a></td>
-        <td>${deAgencia(p) ? 'Agencia' : 'PawZen'}</td><td>${esc(p.formato)}</td><td>${esc(p.pilar) || '—'}</td>
-        <td>${p.pautado ? `<span class="etq" style="background:var(--pagado)">${dinero(p.gastoPauta)}</span>` : 'Orgánico'}</td>
-        <td>${fmt(p.vistas)}</td><td>${fmt(p.alcance)}</td><td>${fmt(p.interacciones)}</td>
-        <td>${fmt(p.guardados)}</td><td>${fmt(p.compartidos)}</td><td>${pct(p.engagement)}</td>
-        <td>${p.seguidores == null ? '<span class="sub">no aplica</span>' : fmt(p.seguidores)}</td></tr>`).join('')}</tbody>
-    </table></div>
-    ${tablaPilares(posts)}
-  </section>
-
-  <section>
     <h2>Campañas</h2>
     <div class="tabla"><table>
       <thead><tr><th>Campaña</th><th>Tipo</th><th>Días activa</th><th>Inversión</th><th>Impresiones</th>
@@ -281,16 +302,11 @@ function pintar(D) {
   <section>
     <h2>Sugerencias para noviembre</h2>
     <div class="sugerencias">
-      <div class="sugerencia" style="--c:var(--alerta)">
-        <h3>Cierre por WhatsApp: llegar al ${pct(metaT, 0)} mínimo</h3>
-        <p class="sub">Hoy ${pct(tasa)} de las conversaciones termina en cita. Con el mismo volumen, la meta son ${fmt(citasMeta)} citas al mes.</p>
+      <div class="sugerencia" style="--c:var(--organico)">
+        <h3>Contenido</h3>
         <ul>
-          <li>Probar 2 o 3 speech distintos, uno por semana, y anotar cuántas citas sale de cada uno: uno directo (servicio, precio y horarios disponibles en el primer mensaje), uno consultivo (preguntar por la mascota: nombre, edad, carácter, y recomendar el servicio) y uno con oferta de entrada (día de prueba o visita de evaluación).</li>
-          <li>Responder en los primeros 5 minutos. Un mensaje de bienvenida automático en WhatsApp Business ayuda fuera de horario.</li>
-          <li>Terminar cada conversación con una pregunta de agenda concreta, por ejemplo “¿te queda mejor el martes o el jueves?”, en lugar de “cualquier cosa me avisas”.</li>
-          <li>Hacer seguimiento a las 24 y 72 horas a quienes preguntaron y no agendaron.</li>
-          <li>Anotar en la hoja de agendas el motivo de cada “no” (precio, horario, distancia, solo preguntaba). En un mes sabremos qué objeción trabajar primero.</li>
-          <li>En noviembre, usar la promo Black Pawzen como argumento de cierre con fecha límite.</li>
+          ${videos[0] ? `<li>Repetir el formato y tema del video con más vistas del mes y probar variaciones del mismo gancho.</li>` : ''}
+          <li>Marcar el pilar de cada publicación (Venta, Crecimiento, Conexión) para comparar cuál trae más alcance y cuál más conversaciones.</li>
         </ul>
       </div>
       <div class="sugerencia" style="--c:var(--pagado)">
@@ -301,11 +317,16 @@ function pintar(D) {
           <li>Pautar los contenidos que ya funcionaron orgánicamente (el top de videos) en lugar de piezas nuevas sin probar.</li>
         </ul>
       </div>
-      <div class="sugerencia" style="--c:var(--organico)">
-        <h3>Contenido</h3>
+      <div class="sugerencia" style="--c:var(--alerta)">
+        <h3>Cierre por WhatsApp: llegar al ${pct(metaT, 0)} mínimo</h3>
+        <p class="sub">Hoy ${pct(tasa)} de las conversaciones termina en cita. Con el mismo volumen, la meta son ${fmt(citasMeta)} citas al mes.</p>
         <ul>
-          ${videos[0] ? `<li>Repetir el formato y tema del video con más vistas del mes y probar variaciones del mismo gancho.</li>` : ''}
-          <li>Marcar el pilar de cada publicación (Venta, Crecimiento, Conexión) para comparar cuál trae más alcance y cuál más conversaciones.</li>
+          <li>Probar 2 o 3 speech distintos, uno por semana, y anotar cuántas citas sale de cada uno: uno directo (servicio, precio y horarios disponibles en el primer mensaje), uno consultivo (preguntar por la mascota: nombre, edad, carácter, y recomendar el servicio) y uno con oferta de entrada (día de prueba o visita de evaluación).</li>
+          <li>Responder en los primeros 5 minutos. Un mensaje de bienvenida automático en WhatsApp Business ayuda fuera de horario.</li>
+          <li>Terminar cada conversación con una pregunta de agenda concreta, por ejemplo “¿te queda mejor el martes o el jueves?”, en lugar de “cualquier cosa me avisas”.</li>
+          <li>Hacer seguimiento a las 24 y 72 horas a quienes preguntaron y no agendaron.</li>
+          <li>Anotar en la hoja de agendas el motivo de cada “no” (precio, horario, distancia, solo preguntaba). En un mes sabremos qué objeción trabajar primero.</li>
+          <li>En noviembre, usar la promo Black Pawzen como argumento de cierre con fecha límite.</li>
         </ul>
       </div>
     </div>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>PawZen · Reporte de octubre 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --fondo: #F2F6F5; --papel: #FFFFFF; --tinta: #1E2B2F; --suave: #5D6F73; --linea: #DCE5E3;
+    --pagado: #E8833A; --organico: #3F8F89; --mensajes: #7A5BA6; --mostaza: #E3B04B;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fondo: #142024; --papel: #1C2B30; --tinta: #EEF3F2; --suave: #A6B7BA; --linea: #2E4146;
+      --pagado: #F29A57; --organico: #5FB5AE; --mensajes: #A487CF; --mostaza: #EBC26A;
+      color-scheme: dark;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fondo); color: var(--tinta);
+    font: 16px/1.55 "Nunito Sans", "Segoe UI", system-ui, sans-serif; }
+  main { max-width: 1080px; margin: 0 auto; padding: 40px 20px 64px; }
+  h1, h2 { font-family: "Baloo 2", "Nunito Sans", system-ui, sans-serif; line-height: 1.1; margin: 0; }
+  h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; }
+  h2 { font-size: 1.45rem; font-weight: 800; margin-bottom: 4px; }
+  p { margin: 0; }
+  .sub { color: var(--suave); }
+  header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 12px; margin-bottom: 32px; }
+  section { margin-top: 44px; }
+
+  /* La pieza central: de dónde vinieron los seguidores */
+  .origen { background: var(--papel); border-radius: 28px; padding: 32px; }
+  .origen .total { font-family: "Baloo 2", sans-serif; font-weight: 800; font-size: clamp(3.2rem, 9vw, 5.5rem); line-height: 1; }
+  .barra { display: flex; height: 56px; border-radius: 999px; overflow: hidden; margin: 24px 0 18px; background: var(--linea); }
+  .barra div { display: flex; align-items: center; padding: 0 18px; color: #fff; font-weight: 800; white-space: nowrap; min-width: 0; }
+  .barra .p { background: var(--pagado); } .barra .o { background: var(--organico); }
+  .leyenda { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+  .leyenda strong { font-size: 1.6rem; font-family: "Baloo 2", sans-serif; }
+  .punto { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 8px; }
+  .neto { margin-top: 20px; padding-top: 16px; border-top: 1px dashed var(--linea); color: var(--suave); }
+
+  .cifras { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 2px; margin-top: 18px;
+    background: var(--linea); border-radius: 18px; overflow: hidden; }
+  .cifras div { background: var(--papel); padding: 18px 20px; }
+  .cifras b { display: block; font-family: "Baloo 2", sans-serif; font-size: 1.7rem; line-height: 1.1; }
+  .cifras span { color: var(--suave); font-size: .92rem; }
+
+  .lienzo { background: var(--papel); border-radius: 18px; padding: 18px; margin-top: 14px; height: 340px; }
+  .tabla { overflow-x: auto; background: var(--papel); border-radius: 18px; margin-top: 14px; }
+  table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+  th, td { padding: 11px 14px; text-align: right; border-bottom: 1px solid var(--linea); white-space: nowrap; }
+  th { color: var(--suave); font-weight: 600; }
+  th:first-child, td:first-child, th:nth-child(2), td:nth-child(2) { text-align: left; }
+  td.texto { text-align: left; white-space: normal; min-width: 220px; max-width: 320px; }
+  tr:last-child td { border-bottom: 0; }
+  a { color: var(--organico); }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--mostaza); outline-offset: 2px; }
+  .etq { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: .82rem; font-weight: 700; color: #fff; }
+  .metodo { font-size: .9rem; color: var(--suave); max-width: 72ch; }
+  .metodo li { margin-bottom: 6px; }
+  .error { background: var(--papel); border-radius: 18px; padding: 24px; }
+</style>
+</head>
+<body>
+<main id="app">
+  <p class="sub">Cargando datos…</p>
+</main>
+
+<script>
+const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const COLOR_TIPO = { 'Mensajes': 'var(--mensajes)', 'Visitas al perfil / Seguidores': 'var(--pagado)' };
+const fmt = (v, d = 0) => v == null || isNaN(v) ? '—' : Number(v).toLocaleString('es-CO', { minimumFractionDigits: d, maximumFractionDigits: d });
+const pct = v => v == null || isNaN(v) ? '—' : fmt(v * 100, 1) + ' %';
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const sumar = (arr, f) => arr.reduce((s, x) => s + (Number(f(x)) || 0), 0);
+
+fetch('data.json').then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+  .then(pintar)
+  .catch(() => {
+    document.getElementById('app').innerHTML = '<div class="error"><h2>No se encontró data.json</h2>' +
+      '<p class="sub">Sube el archivo data.json (el que genera generarDatosOctubre en Apps Script) a la misma carpeta que este index.html.</p></div>';
+  });
+
+function pintar(D) {
+  const [anio, m] = D.mes.split('-');
+  const nombreMes = MESES[Number(m) - 1];
+  const dinero = v => (D.moneda === 'USD' ? '$' : '') + fmt(v, 2) + (D.moneda === 'USD' ? '' : ' ' + D.moneda);
+
+  // Seguidores: pagados (atribuidos por Meta) vs orgánicos (nuevos totales IG − pagados), solo en días con dato
+  const conDato = D.diario.filter(d => d.segTotales != null);
+  const totalesIG = sumar(conDato, d => d.segTotales);
+  const pagados = sumar(D.diario, d => d.segPagados);
+  const pagadosConDato = sumar(conDato, d => d.segPagados);
+  const organicos = Math.max(0, totalesIG - pagadosConDato);
+  const base = conDato.length ? pagadosConDato + organicos : pagados;
+  const pP = base ? pagadosConDato / base : 0;
+  const faltan = D.diario.length - conDato.length;
+
+  const gasto = sumar(D.campanas, c => c.gasto);
+  const conv = sumar(D.campanas, c => c.conversaciones);
+  const gastoSeg = sumar(D.campanas.filter(c => c.tipo !== 'Mensajes'), c => c.gasto);
+  const segCampSeg = sumar(D.campanas.filter(c => c.tipo !== 'Mensajes'), c => c.seguidores);
+  const gastoMsj = sumar(D.campanas.filter(c => c.tipo === 'Mensajes'), c => c.gasto);
+
+  const dif = D.seguidoresCierre != null ? D.seguidoresCierre - D.seguidoresInicio : null;
+  const neto = dif != null
+    ? `<p class="neto">Crecimiento neto de la cuenta: de <b>${fmt(D.seguidoresInicio)}</b> seguidores el 1 de ${nombreMes} a ${D.cierreAprox ? 'aprox. ' : ''}<b>${fmt(D.seguidoresCierre)}</b> el ${Number(D.hasta.slice(8))} de ${nombreMes} (${dif >= 0 ? '+' : ''}${fmt(dif)}, descontando a quienes dejaron de seguir).</p>`
+    : '';
+
+  const app = document.getElementById('app');
+  app.innerHTML = `
+  <header>
+    <div>
+      <p class="sub">${esc(D.instagram)}</p>
+      <h1>${esc(D.cliente)}, ${nombreMes} ${anio}</h1>
+    </div>
+    <p class="sub">Del 1 al ${Number(D.hasta.slice(8))} de ${nombreMes} de ${anio} · Meta Ads e Instagram</p>
+  </header>
+
+  <div class="origen">
+    <h2>¿De dónde llegaron los nuevos seguidores?</h2>
+    <p class="total">${fmt(conDato.length ? base : pagados)}</p>
+    <p class="sub">nuevos seguidores en ${nombreMes}${faltan ? ` (sin dato de Instagram para ${faltan} días; esos días solo cuentan los de campañas)` : ''}</p>
+    <div class="barra" role="img" aria-label="Campañas ${pct(pP)}, orgánico ${pct(1 - pP)}">
+      <div class="p" style="width:${(pP * 100).toFixed(1)}%">${pP > .12 ? pct(pP) : ''}</div>
+      <div class="o" style="width:${((1 - pP) * 100).toFixed(1)}%">${1 - pP > .12 ? pct(1 - pP) : ''}</div>
+    </div>
+    <div class="leyenda">
+      <div><span class="punto" style="background:var(--pagado)"></span>Por campañas <strong>${fmt(conDato.length ? pagadosConDato : pagados)}</strong>
+        <p class="sub">Atribuidos por Meta a los anuncios. Costo por seguidor: ${segCampSeg ? dinero(gastoSeg / segCampSeg) : '—'}</p></div>
+      <div><span class="punto" style="background:var(--organico)"></span>Orgánicos <strong>${conDato.length ? fmt(organicos) : '—'}</strong>
+        <p class="sub">Llegaron por el contenido, el perfil y la recomendación, sin anuncio de por medio.</p></div>
+    </div>
+    ${neto}
+  </div>
+
+  <div class="cifras">
+    <div><b>${dinero(gasto)}</b><span>Inversión total en anuncios</span></div>
+    <div><b>${dinero(gastoSeg)}</b><span>En campañas de seguidores</span></div>
+    <div><b>${dinero(gastoMsj)}</b><span>En campañas de mensajes</span></div>
+    <div><b>${fmt(conv)}</b><span>Conversaciones por WhatsApp · ${conv ? dinero(gastoMsj / conv) + ' c/u' : '—'}</span></div>
+  </div>
+
+  <section>
+    <h2>Seguidores nuevos día a día</h2>
+    <p class="sub">Barras: seguidores por campañas y orgánicos. Línea: inversión del día.</p>
+    <div class="lienzo"><canvas id="gDiario" aria-label="Seguidores nuevos por día"></canvas></div>
+  </section>
+
+  <section>
+    <h2>Campañas</h2>
+    <div class="tabla"><table>
+      <thead><tr><th>Campaña</th><th>Tipo</th><th>Días activa</th><th>Inversión</th><th>Impresiones</th>
+        <th>Conversaciones</th><th>Visitas al perfil</th><th>Seguidores</th><th>Costo por resultado</th></tr></thead>
+      <tbody>${D.campanas.sort((a, b) => b.gasto - a.gasto).map(c => {
+        const res = c.tipo === 'Mensajes' ? c.conversaciones : (c.seguidores || c.visitasPerfil);
+        const color = COLOR_TIPO[c.tipo] || 'var(--suave)';
+        return `<tr><td>${esc(c.nombre)}</td><td><span class="etq" style="background:${color}">${esc(c.tipo)}</span></td>
+          <td>${c.diasActiva} <span class="sub">(${esc(c.desde.slice(5))} a ${esc(c.hasta.slice(5))})</span></td>
+          <td>${dinero(c.gasto)}</td><td>${fmt(c.impresiones)}</td><td>${fmt(c.conversaciones)}</td>
+          <td>${fmt(c.visitasPerfil)}</td><td>${fmt(c.seguidores)}</td>
+          <td>${res ? dinero(c.gasto / res) + (c.tipo === 'Mensajes' ? ' / conv.' : ' / seg.') : '—'}</td></tr>`;
+      }).join('')}</tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>Publicaciones del mes</h2>
+    <p class="sub">Posts publicados del 1 al ${Number(D.hasta.slice(8))} de ${nombreMes}, ordenados por alcance.</p>
+    <div class="tabla"><table>
+      <thead><tr><th>Fecha</th><th>Post</th><th>Formato</th><th>Pilar</th><th>Vistas</th><th>Alcance</th>
+        <th>Interacciones</th><th>Guardados</th><th>Compartidos</th><th>Engagement</th><th>Seguidores</th><th>Pauta</th></tr></thead>
+      <tbody>${D.posts.slice().sort((a, b) => (b.alcance || 0) - (a.alcance || 0)).map(p => `<tr>
+        <td>${esc(p.fecha.slice(8))}/${esc(p.fecha.slice(5, 7))}</td>
+        <td class="texto"><a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.texto || 'Ver post')}</a></td>
+        <td>${esc(p.formato)}</td><td>${esc(p.pilar) || '—'}</td>
+        <td>${fmt(p.vistas)}</td><td>${fmt(p.alcance)}</td><td>${fmt(p.interacciones)}</td>
+        <td>${fmt(p.guardados)}</td><td>${fmt(p.compartidos)}</td><td>${pct(p.engagement)}</td>
+        <td>${p.seguidores == null ? '<span class="sub">no aplica</span>' : fmt(p.seguidores)}</td>
+        <td>${p.pautado ? dinero(p.gastoPauta) : 'Orgánico'}</td></tr>`).join('')}</tbody>
+    </table></div>
+    ${tablaPilares(D.posts)}
+  </section>
+
+  <section>
+    <h2>Cómo leer este reporte</h2>
+    <ul class="metodo">
+      <li>Seguidores por campañas: los que Meta atribuye a un anuncio (columna “Seguimientos” del Administrador de anuncios).</li>
+      <li>Seguidores orgánicos: todos los nuevos seguidores que registra Instagram ese día, menos los de campañas.</li>
+      <li>Los reels no informan seguidores por post; en esos casos la columna dice “no aplica”.</li>
+      <li>Engagement = interacciones ÷ alcance de cada publicación.</li>
+      <li>Inversión, campañas y seguidores corresponden solo al periodo del reporte. Instagram entrega el total acumulado de cada post (no por día), por eso sus cifras se tomaron el ${esc(D.postsMedidosEl)}.</li>${D.cierreAprox ? `
+      <li>Los seguidores al cierre se calculan con el total actual menos los que llegaron después del ${Number(D.hasta.slice(8))} de ${nombreMes}.</li>` : ''}
+    </ul>
+  </section>`;
+
+  grafico(D, dinero);
+}
+
+function tablaPilares(posts) {
+  const grupos = {};
+  posts.forEach(p => { if (!p.pilar) return; (grupos[p.pilar] = grupos[p.pilar] || []).push(p); });
+  const claves = Object.keys(grupos);
+  if (!claves.length) return '<p class="sub" style="margin-top:12px">Marca el pilar de cada post en la hoja (columna Pilar) para ver el promedio por pilar.</p>';
+  const prom = (a, f) => { const v = a.map(f).filter(x => x != null); return v.length ? v.reduce((s, x) => s + x, 0) / v.length : null; };
+  return `<h2 style="margin-top:28px;font-size:1.15rem">Promedio por pilar</h2><div class="tabla"><table>
+    <thead><tr><th>Pilar</th><th>Posts</th><th>Alcance promedio</th><th>Interacciones promedio</th><th>Engagement promedio</th></tr></thead>
+    <tbody>${claves.map(k => `<tr><td>${esc(k)}</td><td>${grupos[k].length}</td><td>${fmt(prom(grupos[k], p => p.alcance))}</td>
+      <td>${fmt(prom(grupos[k], p => p.interacciones))}</td><td>${pct(prom(grupos[k], p => p.engagement))}</td></tr>`).join('')}</tbody>
+  </table></div>`;
+}
+
+function grafico(D, dinero) {
+  if (!window.Chart) return;
+  const dias = D.diario;
+  Chart.defaults.font.family = '"Nunito Sans", system-ui, sans-serif';
+  Chart.defaults.color = css('--suave');
+  new Chart(document.getElementById('gDiario'), {
+    data: {
+      labels: dias.map(d => d.fecha.slice(8)),
+      datasets: [
+        { type: 'bar', label: 'Por campañas', data: dias.map(d => d.segPagados), backgroundColor: css('--pagado'), stack: 's', borderRadius: 4 },
+        { type: 'bar', label: 'Orgánicos', data: dias.map(d => d.segTotales == null ? null : Math.max(0, d.segTotales - d.segPagados)),
+          backgroundColor: css('--organico'), stack: 's', borderRadius: 4 },
+        { type: 'line', label: 'Inversión', data: dias.map(d => d.gasto), yAxisID: 'y2', borderColor: css('--mostaza'),
+          backgroundColor: css('--mostaza'), tension: .3, pointRadius: 0, borderWidth: 2.5 }
+      ]
+    },
+    options: {
+      maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+      plugins: { legend: { position: 'bottom' },
+        tooltip: { callbacks: { label: c => c.dataset.label + ': ' + (c.dataset.yAxisID === 'y2' ? dinero(c.raw) : (c.raw ?? 'sin dato')) } } },
+      scales: {
+        x: { stacked: true, grid: { display: false } },
+        y: { stacked: true, beginAtZero: true, grid: { color: css('--linea') }, title: { display: true, text: 'Seguidores' } },
+        y2: { position: 'right', beginAtZero: true, grid: { display: false }, title: { display: true, text: 'Inversión' } }
+      }
+    }
+  });
+}
+</script>
+</body>
+</html>

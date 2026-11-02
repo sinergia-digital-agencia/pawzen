@@ -1,0 +1,517 @@
+{
+  "cliente": "PawZen",
+  "instagram": "@pawzen.co",
+  "metaConversion": 0.1,
+  "agendas": [
+    {
+      "fecha": "28/10",
+      "citas": 1,
+      "servicio": "Guardería 1 vez a la semana"
+    }
+  ],
+  "mes": "2026-10",
+  "desde": "2026-10-01",
+  "hasta": "2026-10-31",
+  "moneda": "USD",
+  "seguidoresInicio": 1904,
+  "seguidoresCierre": 2663,
+  "cierreAprox": true,
+  "postsMedidosEl": "2026-11-02",
+  "campanas": [
+    {
+      "nombre": "02OCT26_INTERACCIÓN_VISITASPERFILIG_CBO_COLOMBIA",
+      "tipo": "Visitas al perfil / Seguidores",
+      "gasto": 88.83999999999999,
+      "impresiones": 34008,
+      "conversaciones": 107,
+      "visitasPerfil": 1937,
+      "seguidores": 670,
+      "desde": "2026-10-02",
+      "hasta": "2026-10-31",
+      "diasActiva": 30
+    },
+    {
+      "nombre": "19OCT26_INTERACCION_WP_CBO_CALI",
+      "tipo": "Mensajes",
+      "gasto": 112.38000000000002,
+      "impresiones": 35733,
+      "conversaciones": 150,
+      "visitasPerfil": 121,
+      "seguidores": 9,
+      "desde": "2026-10-19",
+      "hasta": "2026-10-31",
+      "diasActiva": 13
+    },
+    {
+      "nombre": "29OCT26_INTERACCION_WP_ABO_CALI",
+      "tipo": "Mensajes",
+      "gasto": 17.189999999999998,
+      "impresiones": 5428,
+      "conversaciones": 31,
+      "visitasPerfil": 32,
+      "seguidores": 6,
+      "desde": "2026-10-29",
+      "hasta": "2026-10-31",
+      "diasActiva": 3
+    }
+  ],
+  "diario": [
+    {
+      "fecha": "2026-10-01",
+      "gasto": 0,
+      "conv": 0,
+      "segPagados": 0,
+      "segTotales": null
+    },
+    {
+      "fecha": "2026-10-02",
+      "gasto": 3.07,
+      "conv": 3,
+      "segPagados": 33,
+      "segTotales": null
+    },
+    {
+      "fecha": "2026-10-03",
+      "gasto": 2.09,
+      "conv": 4,
+      "segPagados": 18,
+      "segTotales": null
+    },
+    {
+      "fecha": "2026-10-04",
+      "gasto": 2.78,
+      "conv": 2,
+      "segPagados": 29,
+      "segTotales": 23
+    },
+    {
+      "fecha": "2026-10-05",
+      "gasto": 2.66,
+      "conv": 2,
+      "segPagados": 23,
+      "segTotales": 29
+    },
+    {
+      "fecha": "2026-10-06",
+      "gasto": 3.6,
+      "conv": 3,
+      "segPagados": 28,
+      "segTotales": 28
+    },
+    {
+      "fecha": "2026-10-07",
+      "gasto": 2.95,
+      "conv": 2,
+      "segPagados": 29,
+      "segTotales": 29
+    },
+    {
+      "fecha": "2026-10-08",
+      "gasto": 2.99,
+      "conv": 2,
+      "segPagados": 26,
+      "segTotales": 18
+    },
+    {
+      "fecha": "2026-10-09",
+      "gasto": 3,
+      "conv": 3,
+      "segPagados": 19,
+      "segTotales": 17
+    },
+    {
+      "fecha": "2026-10-10",
+      "gasto": 2.96,
+      "conv": 5,
+      "segPagados": 19,
+      "segTotales": 26
+    },
+    {
+      "fecha": "2026-10-11",
+      "gasto": 3.39,
+      "conv": 6,
+      "segPagados": 29,
+      "segTotales": 25
+    },
+    {
+      "fecha": "2026-10-12",
+      "gasto": 3.59,
+      "conv": 5,
+      "segPagados": 25,
+      "segTotales": 22
+    },
+    {
+      "fecha": "2026-10-13",
+      "gasto": 3.02,
+      "conv": 5,
+      "segPagados": 22,
+      "segTotales": 22
+    },
+    {
+      "fecha": "2026-10-14",
+      "gasto": 2.21,
+      "conv": 3,
+      "segPagados": 16,
+      "segTotales": 31
+    },
+    {
+      "fecha": "2026-10-15",
+      "gasto": 3.26,
+      "conv": 6,
+      "segPagados": 29,
+      "segTotales": 24
+    },
+    {
+      "fecha": "2026-10-16",
+      "gasto": 2.42,
+      "conv": 7,
+      "segPagados": 25,
+      "segTotales": 34
+    },
+    {
+      "fecha": "2026-10-17",
+      "gasto": 3.03,
+      "conv": 5,
+      "segPagados": 29,
+      "segTotales": 31
+    },
+    {
+      "fecha": "2026-10-18",
+      "gasto": 3.48,
+      "conv": 3,
+      "segPagados": 29,
+      "segTotales": 31
+    },
+    {
+      "fecha": "2026-10-19",
+      "gasto": 12.1,
+      "conv": 25,
+      "segPagados": 27,
+      "segTotales": 35
+    },
+    {
+      "fecha": "2026-10-20",
+      "gasto": 13.69,
+      "conv": 18,
+      "segPagados": 30,
+      "segTotales": 24
+    },
+    {
+      "fecha": "2026-10-21",
+      "gasto": 11.16,
+      "conv": 18,
+      "segPagados": 23,
+      "segTotales": 26
+    },
+    {
+      "fecha": "2026-10-22",
+      "gasto": 11.7,
+      "conv": 14,
+      "segPagados": 22,
+      "segTotales": 17
+    },
+    {
+      "fecha": "2026-10-23",
+      "gasto": 9.21,
+      "conv": 15,
+      "segPagados": 18,
+      "segTotales": 15
+    },
+    {
+      "fecha": "2026-10-24",
+      "gasto": 9.01,
+      "conv": 8,
+      "segPagados": 12,
+      "segTotales": 31
+    },
+    {
+      "fecha": "2026-10-25",
+      "gasto": 12.68,
+      "conv": 13,
+      "segPagados": 20,
+      "segTotales": 22
+    },
+    {
+      "fecha": "2026-10-26",
+      "gasto": 13.27,
+      "conv": 17,
+      "segPagados": 17,
+      "segTotales": 29
+    },
+    {
+      "fecha": "2026-10-27",
+      "gasto": 13.75,
+      "conv": 19,
+      "segPagados": 25,
+      "segTotales": 27
+    },
+    {
+      "fecha": "2026-10-28",
+      "gasto": 9.7,
+      "conv": 14,
+      "segPagados": 22,
+      "segTotales": 15
+    },
+    {
+      "fecha": "2026-10-29",
+      "gasto": 16.98,
+      "conv": 23,
+      "segPagados": 14,
+      "segTotales": 16
+    },
+    {
+      "fecha": "2026-10-30",
+      "gasto": 16.58,
+      "conv": 19,
+      "segPagados": 11,
+      "segTotales": 21
+    },
+    {
+      "fecha": "2026-10-31",
+      "gasto": 18.08,
+      "conv": 19,
+      "segPagados": 16,
+      "segTotales": 0
+    }
+  ],
+  "posts": [
+    {
+      "fecha": "2026-10-12",
+      "formato": "Reel",
+      "link": "https://www.instagram.com/reel/DeaVghTIu2l/",
+      "texto": "Dicen que hay que encontrar un trabajo que te guste tanto que no se sienta como trabajo. Y",
+      "vistas": 494,
+      "alcance": 290,
+      "guardados": 1,
+      "compartidos": 3,
+      "interacciones": 55,
+      "seguidores": null,
+      "engagement": 0.1896551724137931,
+      "pilar": "Venta",
+      "pautado": false,
+      "gastoPauta": 0,
+      "hechoPor": "Agencia"
+    },
+    {
+      "fecha": "2026-10-13",
+      "formato": "Reel",
+      "link": "https://www.instagram.com/reel/DedDOj-oUWI/",
+      "texto": "La próxima vez que compres su concentrado, voltea la bolsa 👀 Un tutor informado tiene más",
+      "vistas": 718,
+      "alcance": 503,
+      "guardados": 7,
+      "compartidos": 4,
+      "interacciones": 76,
+      "seguidores": null,
+      "engagement": 0.15109343936381708,
+      "pilar": "Crecimiento",
+      "pautado": false,
+      "gastoPauta": 0,
+      "hechoPor": "Agencia"
+    },
+    {
+      "fecha": "2026-10-15",
+      "formato": "Reel",
+      "link": "https://www.instagram.com/reel/DehGrUDxzrm/",
+      "texto": "Si al llegar a casa encuentras destrozos, no lo regañes: te está diciendo algo 🐶🐾 👆Prue",
+      "vistas": 658,
+      "alcance": 428,
+      "guardados": 1,
+      "compartidos": 3,
+      "interacciones": 56,
+      "seguidores": null,
+      "engagement": 0.1308411214953271,
+      "pilar": "Venta",
+      "pautado": false,
+      "gastoPauta": 0,
+      "hechoPor": "Agencia"
+    },
+    {
+      "fecha": "2026-10-17",
+      "formato": "Reel",
+      "link": "https://www.instagram.com/reel/Dem1YABIdYs/",
+      "texto": "Nadie nos dijo que este trabajo incluía ser nutricionistas, estilistas y equipo de producc",
+      "vistas": 984,
+      "alcance": 650,
+      "guardados": 1,
+      "compartidos": 2,
+      "interacciones": 74,
+      "seguidores": null,
+      "engagement": 0.11384615384615385,
+      "pilar": "Crecimiento",
+      "pautado": false,
+      "gastoPauta": 0,
+      "hechoPor": "Agencia"
+    },
+    {
+      "fecha": "2026-10-19",
+      "formato": "Carrusel",
+      "link": "https://www.instagram.com/p/DerbUwEkdug/",
+      "texto": "¿Cuál de estos WTF te pasó alguna vez? 👀 ‼️Tranqui‼️ a todos nos ha pasado. Lo importante",
+      "vistas": 646,
+      "alcance": 338,
+      "guardados": 0,
+      "compartidos": 4,
+      "interacciones": 24,
+      "seguidores": 1,
+      "engagement": 0.07100591715976332,
+      "pilar": "Crecimiento",
+      "pautado": false,
+      "gastoPauta": 0,
+      "hechoPor": "Agencia"
+    },
+    {
+      "fecha": "2026-10-20",
+      "formato": "Reel",
+      "link": "https://www.instagram.com/reel/DevGcSRoeEY/",
+      "texto": "Cuando Lupita llegó a PAWZEN por primera vez, no quería ni cruzar la puerta. 🥺 Su familia",
+      "vistas": 615,
+      "alcance": 439,
+      "guardados": 2,
+      "compartidos": 6,
+      "interacciones": 50,
+      "seguidores": null,
+      "engagement": 0.11389521640091116,
+      "pilar": "Conexión",
+      "pautado": false,
+      "gastoPauta": 0,
+      "hechoPor": "Agencia"
+    },
+    {
+      "fecha": "2026-10-22",
+      "formato": "Reel",
+      "link": "https://www.instagram.com/reel/Dezh8X1I_Ec/",
+      "texto": "Si te vas de vacaciones y no tienes dónde dejar a tu peludo o trabajas todo el día y no qu",
+      "vistas": 441,
+      "alcance": 283,
+      "guardados": 4,
+      "compartidos": 7,
+      "interacciones": 41,
+      "seguidores": null,
+      "engagement": 0.14487632508833923,
+      "pilar": "Venta",
+      "pautado": false,
+      "gastoPauta": 0,
+      "hechoPor": "Agencia"
+    },
+    {
+      "fecha": "2026-10-25",
+      "formato": "Reel",
+      "link": "https://www.instagram.com/reel/De7M6SoIDuH/",
+      "texto": "‼️Tu perro no es malo… está asustado‼️ 👆Guarda estos tips para tu próximo paseo y compárt",
+      "vistas": 1169,
+      "alcance": 992,
+      "guardados": 13,
+      "compartidos": 17,
+      "interacciones": 76,
+      "seguidores": null,
+      "engagement": 0.07661290322580645,
+      "pilar": "Crecimiento",
+      "pautado": false,
+      "gastoPauta": 0,
+      "hechoPor": "Agencia"
+    },
+    {
+      "fecha": "2026-10-26",
+      "formato": "Reel",
+      "link": "https://www.instagram.com/reel/De-d1V2I_vq/",
+      "texto": "“Es que nunca lo he dejado con nadie” 🥺 Lo escuchamos en casi todas las primeras visitas,",
+      "vistas": 581,
+      "alcance": 436,
+      "guardados": 1,
+      "compartidos": 3,
+      "interacciones": 50,
+      "seguidores": null,
+      "engagement": 0.11467889908256881,
+      "pilar": "Conexión",
+      "pautado": false,
+      "gastoPauta": 0,
+      "hechoPor": "Agencia"
+    },
+    {
+      "fecha": "2026-10-27",
+      "formato": "Reel",
+      "link": "https://www.instagram.com/reel/De_0ki2x8Xd/",
+      "texto": "¿Qué le dirías a esa mascota que está en el cielo? Hoy recordamos a todos los animales que",
+      "vistas": 1934,
+      "alcance": 1267,
+      "guardados": 2,
+      "compartidos": 18,
+      "interacciones": 201,
+      "seguidores": null,
+      "engagement": 0.15864246250986583,
+      "pilar": "Conexión",
+      "pautado": false,
+      "gastoPauta": 0,
+      "hechoPor": "Agencia"
+    },
+    {
+      "fecha": "2026-10-27",
+      "formato": "Reel",
+      "link": "https://www.instagram.com/reel/DfAdTChIPVK/",
+      "texto": "🐾 ¿Tu perro tiene miedo, reacciona ante otros perros o los paseos se han convertido en un",
+      "vistas": 1484,
+      "alcance": 826,
+      "guardados": 1,
+      "compartidos": 5,
+      "interacciones": 40,
+      "seguidores": null,
+      "engagement": 0.048426150121065374,
+      "pilar": "Crecimiento",
+      "pautado": false,
+      "gastoPauta": 0,
+      "hechoPor": "Agencia"
+    },
+    {
+      "fecha": "2026-10-27",
+      "formato": "Reel",
+      "link": "https://www.instagram.com/reel/DfA9aC5I0Ws/",
+      "texto": "✨ ¿Y si hay encuentros que no son casualidad? Estábamos terminando de recoger nuestros equ",
+      "vistas": 1635,
+      "alcance": 1124,
+      "guardados": 7,
+      "compartidos": 8,
+      "interacciones": 161,
+      "seguidores": null,
+      "engagement": 0.14323843416370108,
+      "pilar": "Conexión",
+      "pautado": false,
+      "gastoPauta": 0,
+      "hechoPor": "Agencia"
+    },
+    {
+      "fecha": "2026-10-28",
+      "formato": "Reel",
+      "link": "https://www.instagram.com/reel/DfCl5h_x1Zz/",
+      "texto": "¿Te vas de viaje y te preocupa dejar a tu gato? 😼 Tranqui, no tiene que moverse de casa. ",
+      "vistas": 447,
+      "alcance": 356,
+      "guardados": 5,
+      "compartidos": 4,
+      "interacciones": 37,
+      "seguidores": null,
+      "engagement": 0.10393258426966293,
+      "pilar": "Venta",
+      "pautado": false,
+      "gastoPauta": 0,
+      "hechoPor": "Agencia"
+    },
+    {
+      "fecha": "2026-10-31",
+      "formato": "Reel",
+      "link": "https://www.instagram.com/reel/DfK4jh1oIqr/",
+      "texto": "Si tu perrito tiene el hocico cortito, sabes que no es un perro cualquiera 🐶 ⚠️ Sus paseo",
+      "vistas": 435,
+      "alcance": 362,
+      "guardados": 2,
+      "compartidos": 5,
+      "interacciones": 34,
+      "seguidores": null,
+      "engagement": 0.09392265193370165,
+      "pilar": "Venta",
+      "pautado": false,
+      "gastoPauta": 0,
+      "hechoPor": "Agencia"
+    }
+  ]
+}

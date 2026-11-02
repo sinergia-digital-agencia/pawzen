@@ -149,7 +149,9 @@ function pintar(D) {
 
   const posts = D.posts || [];
   const pautados = posts.filter(p => p.pautado);
-  const videos = posts.filter(p => /reel|video/i.test(p.formato))
+  const deAgencia = p => p.hechoPor !== 'PawZen';
+  const deCliente = posts.filter(p => !deAgencia(p));
+  const videos = posts.filter(p => deAgencia(p) && /reel|video/i.test(p.formato))
     .sort((a, b) => (b.vistas ?? b.alcance ?? 0) - (a.vistas ?? a.alcance ?? 0)).slice(0, 3);
 
   /* ---------- Página ---------- */
@@ -230,7 +232,7 @@ function pintar(D) {
 
   <section>
     <h2>Top 3 videos del mes</h2>
-    <p class="sub">Reels publicados en ${nombreMes}, ordenados por vistas.</p>
+    <p class="sub">Reels hechos por la agencia y publicados en ${nombreMes}, ordenados por vistas.${deCliente.length ? ` No incluye ${deCliente.length === 1 ? 'el contenido hecho' : 'los ' + deCliente.length + ' contenidos hechos'} por PawZen, que aparecen en la tabla de abajo.` : ''}</p>
     ${videos.length ? `<div class="podio">${videos.map((p, i) => `<article class="video">
       <p class="lugar">${i + 1}</p>
       <a class="texto" href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.texto || 'Ver video')}</a>
@@ -245,14 +247,14 @@ function pintar(D) {
 
   <section>
     <h2>Todos los contenidos</h2>
-    <p class="sub">${fmt(posts.length)} publicaciones en ${nombreMes}; ${fmt(pautados.length)} se usaron en pauta. Resultados generales al ${esc(D.postsMedidosEl)}, ordenados por alcance.</p>
+    <p class="sub">${fmt(posts.length)} publicaciones en ${nombreMes} (${fmt(posts.length - deCliente.length)} de la agencia, ${fmt(deCliente.length)} de PawZen); ${fmt(pautados.length)} se usaron en pauta. Resultados generales al ${esc(D.postsMedidosEl)}, ordenados por alcance.</p>
     <div class="tabla"><table>
-      <thead><tr><th>Fecha</th><th>Post</th><th>Formato</th><th>Pilar</th><th>Pauta</th><th>Vistas</th><th>Alcance</th>
+      <thead><tr><th>Fecha</th><th>Post</th><th>Hecho por</th><th>Formato</th><th>Pilar</th><th>Pauta</th><th>Vistas</th><th>Alcance</th>
         <th>Interacciones</th><th>Guardados</th><th>Compartidos</th><th>Engagement</th><th>Seguidores</th></tr></thead>
       <tbody>${posts.slice().sort((a, b) => (b.alcance || 0) - (a.alcance || 0)).map(p => `<tr>
         <td>${esc(p.fecha.slice(8))}/${esc(p.fecha.slice(5, 7))}</td>
         <td class="texto"><a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.texto || 'Ver post')}</a></td>
-        <td>${esc(p.formato)}</td><td>${esc(p.pilar) || '—'}</td>
+        <td>${deAgencia(p) ? 'Agencia' : 'PawZen'}</td><td>${esc(p.formato)}</td><td>${esc(p.pilar) || '—'}</td>
         <td>${p.pautado ? `<span class="etq" style="background:var(--pagado)">${dinero(p.gastoPauta)}</span>` : 'Orgánico'}</td>
         <td>${fmt(p.vistas)}</td><td>${fmt(p.alcance)}</td><td>${fmt(p.interacciones)}</td>
         <td>${fmt(p.guardados)}</td><td>${fmt(p.compartidos)}</td><td>${pct(p.engagement)}</td>

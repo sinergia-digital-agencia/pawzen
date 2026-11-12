@@ -397,14 +397,23 @@ function pintar(D) {
      Si hay foto real del día, se usa. Si no, se estima repartiendo el crecimiento neto del mes
      según los nuevos seguidores de cada día: así coincide con el total real del día 1 y del cierre. */
   const aporte = d => d.segTotales != null ? d.segTotales : (d.segPagados || 0);
-  const sumaAportes = sumar(D.diario, aporte);
-  let acum = 0;
-  D.diario.forEach(d => {
-    acum += aporte(d);
-    if (d.totalCuenta == null && D.seguidoresInicio != null && D.seguidoresCierre != null && sumaAportes > 0) {
-      d.totalEstimado = Math.round(D.seguidoresInicio + (D.seguidoresCierre - D.seguidoresInicio) * acum / sumaAportes);
+  const dd = D.diario;
+  if (D.seguidoresInicio != null && D.seguidoresCierre != null && dd.length) {
+    // Puntos conocidos: inicio del mes, fotos reales de cada mañana y cierre del periodo
+    const anclas = [{ i: -1, v: D.seguidoresInicio }];
+    dd.forEach((d, i) => { if (d.totalCuenta != null) anclas.push({ i, v: d.totalCuenta }); });
+    if (dd[dd.length - 1].totalCuenta == null) anclas.push({ i: dd.length - 1, v: D.seguidoresCierre });
+    for (let a = 0; a < anclas.length - 1; a++) {
+      const A = anclas[a], B = anclas[a + 1];
+      const tramo = dd.slice(A.i + 1, B.i + 1);
+      const total = sumar(tramo, aporte);
+      let acum = 0;
+      tramo.forEach((d, k) => {
+        acum += aporte(d);
+        if (d.totalCuenta == null) d.totalEstimado = Math.round(A.v + (B.v - A.v) * (total ? acum / total : (k + 1) / tramo.length));
+      });
     }
-  });
+  }
   const hayEstimados = D.diario.some(d => d.totalEstimado != null);
 
   /* ================= PANEL DETALLE ================= */

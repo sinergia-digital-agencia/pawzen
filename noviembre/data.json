@@ -1,0 +1,268 @@
+{
+  "cliente": "PawZen",
+  "instagram": "@pawzen.co",
+  "metaConversion": 0.1,
+  "agendas": [
+    {
+      "fecha": "04/11",
+      "citas": 1,
+      "servicio": "Guardería (2 pasadías) Manuel"
+    },
+    {
+      "fecha": "05/11",
+      "citas": 1,
+      "servicio": "Guardería (1 pasadía) cookie"
+    },
+    {
+      "fecha": "06/11",
+      "citas": 1,
+      "servicio": "Guardería (1 pasadía) Berlín"
+    },
+    {
+      "fecha": "07/11",
+      "citas": 1,
+      "servicio": "Hotel (1 noche) Bolt"
+    },
+    {
+      "fecha": "08/11",
+      "citas": 1,
+      "servicio": "Hotel 6 noches Lion"
+    },
+    {
+      "fecha": "09/11",
+      "citas": 1,
+      "servicio": "Hotel 5 noches Bella"
+    }
+  ],
+  "mes": "2026-11",
+  "desde": "2026-11-01",
+  "hasta": "2026-11-10",
+  "enCurso": true,
+  "inicioAprox": true,
+  "posts72": [],
+  "moneda": "USD",
+  "seguidoresInicio": 2663,
+  "seguidoresCierre": 2827,
+  "cierreAprox": false,
+  "postsMedidosEl": "2026-11-11",
+  "campanas": [
+    {
+      "nombre": "02OCT26_INTERACCIÓN_VISITASPERFILIG_CBO_COLOMBIA",
+      "tipo": "Visitas al perfil / Seguidores",
+      "gasto": 29.67,
+      "impresiones": 12168,
+      "conversaciones": 8,
+      "visitasPerfil": 672,
+      "seguidores": 132,
+      "desde": "2026-11-01",
+      "hasta": "2026-11-10",
+      "diasActiva": 10
+    },
+    {
+      "nombre": "19OCT26_INTERACCION_WP_CBO_CALI",
+      "tipo": "Mensajes",
+      "gasto": 90.73,
+      "impresiones": 42259,
+      "conversaciones": 72,
+      "visitasPerfil": 81,
+      "seguidores": 12,
+      "desde": "2026-11-01",
+      "hasta": "2026-11-10",
+      "diasActiva": 10
+    },
+    {
+      "nombre": "29OCT26_INTERACCION_WP_ABO_CALI",
+      "tipo": "Mensajes",
+      "gasto": 69.71,
+      "impresiones": 27184,
+      "conversaciones": 99,
+      "visitasPerfil": 87,
+      "seguidores": 17,
+      "desde": "2026-11-01",
+      "hasta": "2026-11-10",
+      "diasActiva": 10
+    }
+  ],
+  "diario": [
+    {
+      "fecha": "2026-11-01",
+      "gasto": 24.009999999999998,
+      "conv": 23,
+      "segPagados": 18,
+      "segTotales": 18
+    },
+    {
+      "fecha": "2026-11-02",
+      "gasto": 13.57,
+      "conv": 10,
+      "segPagados": 16,
+      "segTotales": 22
+    },
+    {
+      "fecha": "2026-11-03",
+      "gasto": 22.14,
+      "conv": 26,
+      "segPagados": 17,
+      "segTotales": 24
+    },
+    {
+      "fecha": "2026-11-04",
+      "gasto": 17.79,
+      "conv": 21,
+      "segPagados": 19,
+      "segTotales": 21
+    },
+    {
+      "fecha": "2026-11-05",
+      "gasto": 21.88,
+      "conv": 25,
+      "segPagados": 19,
+      "segTotales": 14
+    },
+    {
+      "fecha": "2026-11-06",
+      "gasto": 16.15,
+      "conv": 9,
+      "segPagados": 11,
+      "segTotales": 16
+    },
+    {
+      "fecha": "2026-11-07",
+      "gasto": 15.5,
+      "conv": 19,
+      "segPagados": 12,
+      "segTotales": 26
+    },
+    {
+      "fecha": "2026-11-08",
+      "gasto": 19.84,
+      "conv": 14,
+      "segPagados": 27,
+      "segTotales": 10
+    },
+    {
+      "fecha": "2026-11-09",
+      "gasto": 14.36,
+      "conv": 15,
+      "segPagados": 10,
+      "segTotales": 13
+    },
+    {
+      "fecha": "2026-11-10",
+      "gasto": 24.87,
+      "conv": 17,
+      "segPagados": 12,
+      "segTotales": 0
+    }
+  ],
+  "posts": [
+    {
+      "id": "18389893942225397",
+      "fecha": "2026-11-02",
+      "formato": "Reel",
+      "link": "https://www.instagram.com/reel/DfPbz5sINNt/",
+      "texto": "Así es un día en PAWZEN 🧡🐾 Y aunque despedirlos siempre nos aprieta el corazón, verlos v",
+      "vistas": 632,
+      "alcance": 474,
+      "guardados": 1,
+      "compartidos": 3,
+      "interacciones": 52,
+      "seguidores": null,
+      "engagement": 0.10970464135021098,
+      "pilar": "",
+      "pautado": false,
+      "gastoPauta": 0,
+      "hechoPor": "Agencia"
+    },
+    {
+      "id": "17977620729150921",
+      "fecha": "2026-11-03",
+      "formato": "Reel",
+      "link": "https://www.instagram.com/reel/DfR-99iICX9/",
+      "texto": "Acabo de firmar con mi patita: Black Pawzen es oficial 🐾✍️ Este mes mis tutoras Betty y C",
+      "vistas": 309,
+      "alcance": 211,
+      "guardados": 0,
+      "compartidos": 2,
+      "interacciones": 27,
+      "seguidores": null,
+      "engagement": 0.12796208530805686,
+      "pilar": "",
+      "pautado": false,
+      "gastoPauta": 0,
+      "hechoPor": "Agencia"
+    },
+    {
+      "id": "17938835388405664",
+      "fecha": "2026-11-05",
+      "formato": "Reel",
+      "link": "https://www.instagram.com/reel/DfXH3QOxYAD/",
+      "texto": "Nos vemos en FamyFest Pets Cali! 🐶🐱 Prepárate para vivir una experiencia especial junto ",
+      "vistas": 491,
+      "alcance": 355,
+      "guardados": 1,
+      "compartidos": 3,
+      "interacciones": 35,
+      "seguidores": null,
+      "engagement": 0.09859154929577464,
+      "pilar": "",
+      "pautado": false,
+      "gastoPauta": 0,
+      "hechoPor": "Agencia"
+    },
+    {
+      "id": "18134656820506981",
+      "fecha": "2026-11-06",
+      "formato": "Carrusel",
+      "link": "https://www.instagram.com/p/DfaFSd-kcZQ/",
+      "texto": "Todo lo que tu peludito necesita, este mes hasta 25% menos 🐾✨ Llegó Black Pawzen y lo fir",
+      "vistas": 363,
+      "alcance": 192,
+      "guardados": 1,
+      "compartidos": 3,
+      "interacciones": 16,
+      "seguidores": 0,
+      "engagement": 0.08333333333333333,
+      "pilar": "",
+      "pautado": false,
+      "gastoPauta": 0,
+      "hechoPor": "Agencia"
+    },
+    {
+      "id": "17988332847095286",
+      "fecha": "2026-11-07",
+      "formato": "Reel",
+      "link": "https://www.instagram.com/reel/Dfc0vU7oyna/",
+      "texto": "¿Cuantos más afortunados por aquí? Definitivamente Dios nos envío ángeles con 4 patitas 🐶",
+      "vistas": 374,
+      "alcance": 267,
+      "guardados": 4,
+      "compartidos": 1,
+      "interacciones": 27,
+      "seguidores": null,
+      "engagement": 0.10112359550561797,
+      "pilar": "",
+      "pautado": false,
+      "gastoPauta": 0,
+      "hechoPor": "Agencia"
+    },
+    {
+      "id": "18144283066716851",
+      "fecha": "2026-11-10",
+      "formato": "Reel",
+      "link": "https://www.instagram.com/reel/DflDInNCi58/",
+      "texto": "Sacar a tu gato de su territorio cuando sales de viaje puede causarle altos niveles de est",
+      "vistas": 340,
+      "alcance": 255,
+      "guardados": 0,
+      "compartidos": 2,
+      "interacciones": 21,
+      "seguidores": null,
+      "engagement": 0.08235294117647059,
+      "pilar": "",
+      "pautado": false,
+      "gastoPauta": 0,
+      "hechoPor": "Agencia"
+    }
+  ]
+}

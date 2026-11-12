@@ -393,6 +393,20 @@ function pintar(D) {
     ${tablaPilares(posts)}
   </section>`;
 
+  /* ---------- Total de la cuenta por día ----------
+     Si hay foto real del día, se usa. Si no, se estima repartiendo el crecimiento neto del mes
+     según los nuevos seguidores de cada día: así coincide con el total real del día 1 y del cierre. */
+  const aporte = d => d.segTotales != null ? d.segTotales : (d.segPagados || 0);
+  const sumaAportes = sumar(D.diario, aporte);
+  let acum = 0;
+  D.diario.forEach(d => {
+    acum += aporte(d);
+    if (d.totalCuenta == null && D.seguidoresInicio != null && D.seguidoresCierre != null && sumaAportes > 0) {
+      d.totalEstimado = Math.round(D.seguidoresInicio + (D.seguidoresCierre - D.seguidoresInicio) * acum / sumaAportes);
+    }
+  });
+  const hayEstimados = D.diario.some(d => d.totalEstimado != null);
+
   /* ================= PANEL DETALLE ================= */
   const det = D.detalle || [];
   const nombresCamp = [...new Set(det.map(x => x.campana))];
@@ -415,7 +429,7 @@ function pintar(D) {
     detalle: [['Fecha', 'Campaña', 'Tipo', 'Gasto', 'Impresiones', 'Alcance', 'Conversaciones', 'Visitas al perfil', 'Seguidores']]
       .concat(det.map(x => [x.fecha, x.campana, x.tipo, x.gasto.toFixed(2), x.impresiones, x.alcance, x.conversaciones, x.visitasPerfil, x.seguidores])),
     seguidores: [['Fecha', 'Nuevos seguidores (Instagram)', 'Por campañas', 'Orgánicos', 'Total de la cuenta']]
-      .concat(D.diario.map(d => [d.fecha, d.segTotales ?? '', d.segPagados, d.segTotales == null ? '' : Math.max(0, d.segTotales - d.segPagados), d.totalCuenta ?? ''])),
+      .concat(D.diario.map(d => [d.fecha, d.segTotales ?? '', d.segPagados, d.segTotales == null ? '' : Math.max(0, d.segTotales - d.segPagados), d.totalCuenta ?? (d.totalEstimado != null ? d.totalEstimado + ' (estimado)' : '')])),
     agendas: [['Fecha', 'Citas', 'Servicio', 'Llegó por', 'Anuncio en Meta']]
       .concat(ag.map(a => [a.fecha, a.citas, a.servicio, a.anuncio, a.anuncioMeta || '']))
   };
@@ -450,12 +464,12 @@ function pintar(D) {
   </section>
 
   <section>
-    <div class="barra-tabla"><div><h2>Seguidores día a día</h2><p class="sub">Nuevos seguidores que registra Instagram, cuántos atribuye Meta a las campañas y el total de la cuenta.${D.diario.every(d => d.totalCuenta != null) ? '' : ' Instagram no entrega el total de seguidores de días pasados: se guarda una foto cada mañana desde que se activó la actualización automática, por eso los días anteriores aparecen sin dato.'}</p></div>${boton('seguidores', 'seguidores')}</div>
+    <div class="barra-tabla"><div><h2>Seguidores día a día</h2><p class="sub">Nuevos seguidores que registra Instagram, cuántos atribuye Meta a las campañas y el total de la cuenta.${hayEstimados ? ' Los totales marcados con * son estimados: Instagram no entrega el total de días pasados, así que el crecimiento neto del mes se reparte según los nuevos seguidores de cada día (coincide con el total real al inicio y al cierre).' : ''}</p></div>${boton('seguidores', 'seguidores')}</div>
     <div class="tabla scroll-y"><table>
       <thead><tr><th>Fecha</th><th>Nuevos (Instagram)</th><th>Por campañas</th><th>Orgánicos</th><th>Total de la cuenta</th></tr></thead>
       <tbody>${D.diario.map(d => `<tr><td>${dm(d.fecha)}</td><td>${d.segTotales == null ? '<span class="sub">sin dato</span>' : fmt(d.segTotales)}</td>
         <td>${fmt(d.segPagados)}</td><td>${d.segTotales == null ? '—' : fmt(Math.max(0, d.segTotales - d.segPagados))}</td>
-        <td>${d.totalCuenta == null ? '<span class="sub">—</span>' : fmt(d.totalCuenta)}</td></tr>`).join('')}</tbody>
+        <td>${d.totalCuenta != null ? fmt(d.totalCuenta) : (d.totalEstimado != null ? `<span class="sub">${fmt(d.totalEstimado)}*</span>` : '<span class="sub">—</span>')}</td></tr>`).join('')}</tbody>
     </table></div>
   </section>
 

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>PawZen · Reporte de octubre 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --fondo: #E6F0EC; --papel: #FFFFFF; --tinta: #1E2B2F; --suave: #5D6F73; --linea: #DCE5E3;
+    --pagado: #E8833A; --organico: #3F8F89; --mensajes: #7A5BA6; --mostaza: #E3B04B; --alerta: #C8553D;
+    --pagado-suave: #FCEBDD; --mensajes-suave: #EEE7F6;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fondo: #0E2B2C; --papel: #1C2B30; --tinta: #EEF3F2; --suave: #A6B7BA; --linea: #2E4146;
+      --pagado: #F29A57; --organico: #5FB5AE; --mensajes: #A487CF; --mostaza: #EBC26A; --alerta: #E57A62;
+      --pagado-suave: #3A2B22; --mensajes-suave: #2E2840;
+      color-scheme: dark;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fondo); color: var(--tinta);
+    font: 16px/1.55 "Nunito Sans", "Segoe UI", system-ui, sans-serif; }
+  main { max-width: 1080px; margin: 0 auto; padding: 40px 20px 64px; }
+  h1, h2, h3 { font-family: "Baloo 2", "Nunito Sans", system-ui, sans-serif; line-height: 1.15; margin: 0; }
+  h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; }
+  h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 4px; }
+  h3 { font-size: 1.2rem; font-weight: 800; }
+  p { margin: 0; }
+  .sub { color: var(--suave); }
+  header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 12px; margin-bottom: 32px; }
+  section { margin-top: 52px; }
+  .caja { background: var(--papel); border-radius: 22px; padding: 24px; }
+
+  /* Seguidores: la pieza central */
+  .origen { background: var(--papel); border-radius: 28px; padding: 32px; }
+  .origen .total { font-family: "Baloo 2", sans-serif; font-weight: 800; font-size: clamp(3.2rem, 9vw, 5.5rem); line-height: 1; margin-top: 8px; }
+  .barra { display: flex; height: 56px; border-radius: 999px; overflow: hidden; margin: 24px 0 18px; background: var(--linea); }
+  .barra div { display: flex; align-items: center; padding: 0 18px; color: #fff; font-weight: 800; white-space: nowrap; min-width: 0; }
+  .barra .p { background: var(--pagado); } .barra .o { background: var(--organico); }
+  .leyenda { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+  .leyenda strong { font-size: 1.6rem; font-family: "Baloo 2", sans-serif; }
+  .punto { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 8px; }
+  .detalle { margin-top: 18px; padding-top: 14px; border-top: 1px dashed var(--linea); color: var(--suave); font-size: .95rem; }
+
+  /* Pauta por objetivo */
+  .objetivos { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-top: 16px; }
+  .objetivo { background: var(--papel); border-radius: 22px; padding: 24px; border-top: 6px solid var(--c); }
+  .objetivo .tipo { color: var(--c); font-weight: 800; }
+  .datos { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px; margin-top: 16px; }
+  .datos b { display: block; font-family: "Baloo 2", sans-serif; font-size: 1.55rem; line-height: 1.1; }
+  .datos span { color: var(--suave); font-size: .9rem; }
+  .extra { margin-top: 18px; padding: 14px 16px; border-radius: 14px; background: var(--fondo-c); }
+  .extra b { font-family: "Baloo 2", sans-serif; font-size: 1.3rem; }
+
+  /* Embudo hacia la cita */
+  .embudo { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 2px; background: var(--linea); border-radius: 18px; overflow: hidden; margin-top: 16px; }
+  .embudo div { background: var(--papel); padding: 18px 20px; }
+  .embudo b { display: block; font-family: "Baloo 2", sans-serif; font-size: 1.7rem; line-height: 1.1; }
+  .embudo span { color: var(--suave); font-size: .9rem; }
+  .meta { margin-top: 16px; }
+  .meta .pista { position: relative; height: 18px; border-radius: 999px; background: var(--linea); }
+  .meta .lleno { height: 100%; border-radius: 999px; background: var(--alerta); min-width: 6px; }
+  .meta .marca { position: absolute; top: -6px; bottom: -6px; width: 3px; background: var(--tinta); border-radius: 2px; }
+  .meta .marca span { position: absolute; top: -26px; left: 50%; transform: translateX(-50%); font-size: .85rem; font-weight: 800; white-space: nowrap; }
+  .meta p { margin-top: 12px; }
+
+  .lienzo { background: var(--papel); border-radius: 18px; padding: 18px; margin-top: 14px; height: 340px; }
+  .tabla { overflow-x: auto; background: var(--papel); border-radius: 18px; margin-top: 14px; }
+  table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+  th, td { padding: 11px 14px; text-align: right; border-bottom: 1px solid var(--linea); white-space: nowrap; }
+  th { color: var(--suave); font-weight: 600; }
+  th:first-child, td:first-child, th:nth-child(2), td:nth-child(2) { text-align: left; }
+  td.texto { white-space: normal; min-width: 220px; max-width: 320px; }
+  tr:last-child td { border-bottom: 0; }
+  a { color: var(--organico); }
+  a:focus-visible { outline: 3px solid var(--mostaza); outline-offset: 2px; }
+  .etq { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: .82rem; font-weight: 700; color: #fff; }
+
+  /* Top 3 videos */
+  .podio { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 16px; }
+  .video { background: var(--papel); border-radius: 22px; padding: 22px; display: flex; flex-direction: column; gap: 12px; }
+  .video .lugar { font-family: "Baloo 2", sans-serif; font-weight: 800; font-size: 2.6rem; line-height: 1; color: var(--mostaza); }
+  .video .texto { font-weight: 600; }
+  .video .datos { margin-top: 0; }
+
+  .sugerencias { display: grid; gap: 14px; margin-top: 16px; }
+  .sugerencia { background: var(--papel); border-radius: 18px; padding: 20px 22px; border-left: 6px solid var(--c, var(--organico)); }
+  .sugerencia h3 { margin-bottom: 6px; }
+  .sugerencia ul { margin: 8px 0 0; padding-left: 20px; }
+  .sugerencia li { margin-bottom: 6px; max-width: 75ch; }
+  .trio { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 16px; }
+  .trio .caja h3 { margin-bottom: 10px; }
+  .lista { list-style: none; margin: 0; padding: 0; }
+  .lista li { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--linea); }
+  .lista li:last-child { border-bottom: 0; }
+  .lista b { font-family: "Baloo 2", sans-serif; font-size: 1.15rem; }
+  .metodo { font-size: .9rem; color: var(--suave); max-width: 75ch; }
+  .metodo li { margin-bottom: 6px; }
+  .resumen { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 2px; background: var(--linea); border-radius: 22px; overflow: hidden; }
+  .resumen div { background: var(--papel); padding: 20px 22px; }
+  .resumen b { display: block; font-family: "Baloo 2", sans-serif; font-size: 2rem; line-height: 1.1; }
+  .resumen span { color: var(--suave); font-size: .9rem; }
+  .parte { margin-top: 72px; padding-top: 22px; border-top: 3px solid var(--tinta); }
+  .parte h2 { font-size: clamp(1.8rem, 4vw, 2.4rem); }
+  .parte + section, .parte + .origen { margin-top: 24px; }
+  .error { background: var(--papel); border-radius: 18px; padding: 24px; }
+</style>
+</head>
+<body>
+<main id="app"><p class="sub">Cargando datos…</p></main>
+
+<script>
+const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const fmt = (v, d = 0) => v == null || isNaN(v) ? '—' : Number(v).toLocaleString('es-CO', { minimumFractionDigits: d, maximumFractionDigits: d });
+const pct = (v, d = 1) => v == null || isNaN(v) ? '—' : fmt(v * 100, d) + ' %';
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const sumar = (arr, f) => arr.reduce((s, x) => s + (Number(f(x)) || 0), 0);
+const div = (a, b) => b ? a / b : null;
+
+fetch('data.json').then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+  .then(pintar)
+  .catch(() => {
+    document.getElementById('app').innerHTML = '<div class="error"><h2>No se encontró data.json</h2>' +
+      '<p class="sub">Sube el archivo data.json (el que genera generarDatosOctubre en Apps Script) a la misma carpeta que este index.html.</p></div>';
+  });
+
+function pintar(D) {
+  const [anio, m] = D.mes.split('-');
+  const nombreMes = MESES[Number(m) - 1];
+  const ultimo = Number(D.hasta.slice(8));
+  const dinero = v => v == null || isNaN(v) ? '—' : (D.moneda === 'USD' ? '$' : '') + fmt(v, 2) + (D.moneda === 'USD' ? '' : ' ' + D.moneda);
+
+  /* ---------- Cálculos ---------- */
+  const msj = D.campanas.filter(c => c.tipo === 'Mensajes');
+  const vis = D.campanas.filter(c => c.tipo !== 'Mensajes');
+  const T = arr => ({
+    gasto: sumar(arr, c => c.gasto), conv: sumar(arr, c => c.conversaciones),
+    seg: sumar(arr, c => c.seguidores), visitas: sumar(arr, c => c.visitasPerfil), imp: sumar(arr, c => c.impresiones)
+  });
+  const M = T(msj), V = T(vis);
+  const gasto = M.gasto + V.gasto;
+
+  const pagados = M.seg + V.seg;
+  const neto = D.seguidoresCierre != null ? D.seguidoresCierre - D.seguidoresInicio : null;
+  const conDato = D.diario.filter(d => d.segTotales != null);
+  const total = neto != null ? neto : pagados + Math.max(0, sumar(conDato, d => d.segTotales) - sumar(conDato, d => d.segPagados));
+  const organicos = Math.max(0, total - pagados);
+  const pP = pagados / (Math.max(total, pagados) || 1);
+
+  const citas = sumar(D.agendas || [], a => a.citas);
+  const convTotal = M.conv + V.conv;
+  const tasa = div(citas, convTotal);
+  const metaT = D.metaConversion || 0.10;
+  const citasMeta = Math.ceil(convTotal * metaT);
+
+  const ag = D.agendas || [];
+  const norm = t => String(t || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+  const anuncioDe = txt => {
+    const a = norm(txt); if (a.length < 5) return null;
+    return (D.anuncios || []).find(x => { const b = norm(x.nombre); return b === a || (b.length > 5 && (b.includes(a) || a.includes(b))); }) || null;
+  };
+  const agrupar = (lista, clave, peso) => {
+    const g = {}; lista.forEach(x => { const k = clave(x); if (k) g[k] = (g[k] || 0) + (peso ? peso(x) : 1); });
+    return Object.keys(g).map(k => ({ k, n: g[k] })).sort((a, b) => b.n - a.n);
+  };
+  const porServicio = agrupar(ag, a => { const w = (a.servicio || '').split(/[\s(]/)[0]; return w ? w[0].toUpperCase() + w.slice(1).toLowerCase() : 'Sin dato'; }, a => a.citas);
+  const porOrigen = agrupar(ag, a => (a.anuncio || 'Sin dato').trim(), a => a.citas).map(o => {
+    const ad = /org[aá]nico/i.test(o.k) ? null : anuncioDe(o.k);
+    return Object.assign(o, { ad, costoCita: ad && ad.gasto ? ad.gasto / o.n : null });
+  });
+  const porMotivo = agrupar((D.motivos || []).flatMap(m => m.motivo.split(';').map(x => ({ motivo: x.trim() }))), m => m.motivo);
+  const origenTop = porOrigen.find(o => o.ad);
+
+  const posts = D.posts || [];
+  const pautados = posts.filter(p => p.pautado);
+  const deAgencia = p => p.hechoPor !== 'PawZen';
+  const deCliente = posts.filter(p => !deAgencia(p));
+  const vistasAgencia = sumar(posts.filter(p => p.hechoPor !== 'PawZen'), p => p.vistas);
+  const videos = posts.filter(p => deAgencia(p) && /reel|video/i.test(p.formato))
+    .sort((a, b) => (b.vistas ?? b.alcance ?? 0) - (a.vistas ?? a.alcance ?? 0)).slice(0, 3);
+
+  /* ---------- Página ---------- */
+  document.getElementById('app').innerHTML = `
+  <header>
+    <div><p class="sub">${esc(D.instagram)}</p><h1>${esc(D.cliente)}, ${nombreMes} ${anio}</h1></div>
+    <p class="sub">Del 1 al ${ultimo} de ${nombreMes} de ${anio}${D.enCurso ? ' (mes en curso)' : ''} · Meta Ads e Instagram</p>
+  </header>
+
+  <div class="resumen">
+    <div><b>${total >= 0 ? '+' : ''}${fmt(total)}</b><span>Seguidores netos (${fmt(D.seguidoresInicio)} → ${fmt(D.seguidoresCierre)})</span></div>
+    <div><b>${fmt(posts.length)}</b><span>Publicaciones (${fmt(posts.length - deCliente.length)} de la agencia)</span></div>
+    <div><b>${fmt(vistasAgencia)}</b><span>Vistas de los contenidos de la agencia</span></div>
+    <div><b>${dinero(gasto)}</b><span>Inversión en Meta Ads</span></div>
+    <div><b>${fmt(convTotal)}</b><span>Conversaciones por anuncios</span></div>
+    <div><b>${fmt(citas)} · ${pct(tasa)}</b><span>Citas y conversión a cita (meta ${pct(metaT, 0)})</span></div>
+  </div>
+
+  <div class="parte"><h2>Contenido</h2><p class="sub">Qué se publicó en ${nombreMes} y cómo le fue a cada pieza.</p></div>
+
+  <section>
+    <h2>Top 3 videos del mes</h2>
+    <p class="sub">Reels hechos por la agencia y publicados en ${nombreMes}, ordenados por vistas.${deCliente.length ? ` No incluye ${deCliente.length === 1 ? 'el contenido hecho' : 'los ' + deCliente.length + ' contenidos hechos'} por PawZen, que aparecen en la tabla de abajo.` : ''}</p>
+    ${videos.length ? `<div class="podio">${videos.map((p, i) => `<article class="video">
+      <p class="lugar">${i + 1}</p>
+      <a class="texto" href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.texto || 'Ver video')}</a>
+      <p class="sub">${esc(p.fecha.slice(8))}/${esc(p.fecha.slice(5, 7))} · ${esc(p.pilar || 'sin pilar')} · ${p.pautado ? `<span class="etq" style="background:var(--pagado)">Pautado ${dinero(p.gastoPauta)}</span>` : 'Orgánico'}</p>
+      <div class="datos">
+        <div><b>${fmt(p.vistas)}</b><span>Vistas</span></div>
+        <div><b>${fmt(p.alcance)}</b><span>Alcance</span></div>
+        <div><b>${fmt(p.interacciones)}</b><span>Interacciones</span></div>
+        <div><b>${pct(p.engagement)}</b><span>Engagement</span></div>
+      </div></article>`).join('')}</div>` : '<p class="caja sub" style="margin-top:14px">No hay reels publicados en el periodo.</p>'}
+  </section>
+
+  ${seccion72(D, posts, deAgencia, dinero, nombreMes)}
+
+  <section>
+    <h2>Todos los contenidos</h2>
+    <p class="sub">${fmt(posts.length)} publicaciones en ${nombreMes} (${fmt(posts.length - deCliente.length)} de la agencia, ${fmt(deCliente.length)} de PawZen); ${fmt(pautados.length)} se usaron en pauta. Resultados generales al ${esc(D.postsMedidosEl)}, ordenados por alcance.</p>
+    <div class="tabla"><table>
+      <thead><tr><th>Fecha</th><th>Post</th><th>Hecho por</th><th>Formato</th><th>Pilar</th><th>Pauta</th><th>Vistas</th><th>Alcance</th>
+        <th>Interacciones</th><th>Guardados</th><th>Compartidos</th><th>Engagement</th><th>Seguidores</th></tr></thead>
+      <tbody>${posts.slice().sort((a, b) => (b.alcance || 0) - (a.alcance || 0)).map(p => `<tr>
+        <td>${esc(p.fecha.slice(8))}/${esc(p.fecha.slice(5, 7))}</td>
+        <td class="texto"><a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.texto || 'Ver post')}</a></td>
+        <td>${deAgencia(p) ? 'Agencia' : 'PawZen'}</td><td>${esc(p.formato)}</td><td>${esc(p.pilar) || '—'}</td>
+        <td>${p.pautado ? `<span class="etq" style="background:var(--pagado)">${dinero(p.gastoPauta)}</span>` : 'Orgánico'}</td>
+        <td>${fmt(p.vistas)}</td><td>${fmt(p.alcance)}</td><td>${fmt(p.interacciones)}</td>
+        <td>${fmt(p.guardados)}</td><td>${fmt(p.compartidos)}</td><td>${pct(p.engagement)}</td>
+        <td>${p.seguidores == null ? '<span class="sub">no aplica</span>' : fmt(p.seguidores)}</td></tr>`).join('')}</tbody>
+    </table></div>
+    ${tablaPilares(posts)}
+  </section>
+
+  <div class="parte"><h2>Tráfico con Meta Ads</h2><p class="sub">Inversión, seguidores, conversaciones y citas que trajeron los anuncios.</p></div>
+
+  <div class="origen">
+    <h2>¿De dónde llegaron los nuevos seguidores?</h2>
+    <p class="total">${total >= 0 ? '+' : ''}${fmt(total)}</p>
+    <p class="sub">${neto != null ? `seguidores netos en ${nombreMes}: de ${D.inicioAprox ? 'aprox. ' : ''}${fmt(D.seguidoresInicio)} el 1 a ${D.cierreAprox ? 'aprox. ' : ''}${fmt(D.seguidoresCierre)} el ${ultimo}` : `nuevos seguidores en ${nombreMes}`}</p>
+    <div class="barra" role="img" aria-label="Campañas ${pct(pP)}, orgánico ${pct(1 - pP)}">
+      <div class="p" style="width:${(pP * 100).toFixed(1)}%">${pP > .12 ? pct(pP) : ''}</div>
+      <div class="o" style="width:${((1 - pP) * 100).toFixed(1)}%">${1 - pP > .12 ? pct(1 - pP) : ''}</div>
+    </div>
+    <div class="leyenda">
+      <div><span class="punto" style="background:var(--pagado)"></span>Por campañas <strong>${fmt(pagados)}</strong>
+        <p class="sub">Seguimientos de Instagram que Meta atribuye a los anuncios.</p></div>
+      <div><span class="punto" style="background:var(--organico)"></span>Orgánicos <strong>${fmt(organicos)}</strong>
+        <p class="sub">${pagados > total ? 'Meta atribuye más seguidores que el crecimiento neto: la diferencia son personas que dejaron de seguir.' : 'La diferencia entre el crecimiento neto y lo que trajeron las campañas: llegaron por el contenido y el perfil.'}</p></div>
+    </div>
+    <p class="detalle">${D.campanas.slice().sort((a, b) => b.seguidores - a.seguidores).map(c => `${esc(c.nombre)}: <b>${fmt(c.seguidores)}</b>`).join('<br>')}</p>
+  </div>
+
+  <section>
+    <h2>Pauta por objetivo</h2>
+    <p class="sub">Inversión total: <b>${dinero(gasto)}</b>. Cada campaña tiene un objetivo, pero también trae resultados extra.</p>
+    <div class="objetivos">
+      ${vis.length ? `<div class="objetivo" style="--c:var(--pagado);--fondo-c:var(--pagado-suave)">
+        <p class="tipo">Visitas al perfil · objetivo: seguidores</p>
+        <div class="datos">
+          <div><b>${dinero(V.gasto)}</b><span>Inversión</span></div>
+          <div><b>${fmt(V.visitas)}</b><span>Visitas al perfil · ${dinero(div(V.gasto, V.visitas))} c/u</span></div>
+          <div><b>${fmt(V.seg)}</b><span>Seguidores</span></div>
+          <div><b>${dinero(div(V.gasto, V.seg))}</b><span>Costo por seguidor</span></div>
+        </div>
+        ${V.conv ? `<div class="extra"><b>+${fmt(V.conv)} conversaciones por DM</b>
+          <p class="sub">Aunque esta campaña no busca mensajes, ${fmt(V.conv)} personas escribieron después de ver el anuncio. Es un ${pct(div(V.conv, convTotal), 0)} de todas las conversaciones del mes, sin costo adicional.</p></div>` : ''}
+      </div>` : ''}
+      ${msj.length ? `<div class="objetivo" style="--c:var(--mensajes);--fondo-c:var(--mensajes-suave)">
+        <p class="tipo">Mensajes por WhatsApp · objetivo: conversaciones</p>
+        <div class="datos">
+          <div><b>${dinero(M.gasto)}</b><span>Inversión</span></div>
+          <div><b>${fmt(M.conv)}</b><span>Conversaciones iniciadas</span></div>
+          <div><b>${dinero(div(M.gasto, M.conv))}</b><span>Costo por conversación</span></div>
+          <div><b>${fmt(M.seg)}</b><span>Seguidores (extra)</span></div>
+        </div>
+        <p class="sub" style="margin-top:14px">${msj.map(c => `${esc(c.nombre)}: ${fmt(c.conversaciones)} conv. a ${dinero(div(c.gasto, c.conversaciones))}`).join('<br>')}</p>
+      </div>` : ''}
+    </div>
+  </section>
+
+  <section>
+    <h2>Del mensaje a la cita</h2>
+    <p class="sub">Todas las conversaciones que recibió el equipo de PawZen por anuncios, y cuántas terminaron en cita.</p>
+    <div class="embudo">
+      <div><b>${fmt(convTotal)}</b><span>Conversaciones por anuncios (${fmt(M.conv)} de mensajes + ${fmt(V.conv)} por DM)</span></div>
+      <div><b>${fmt(citas)}</b><span>Citas agendadas</span></div>
+      <div><b>${pct(tasa)}</b><span>Conversión a cita</span></div>
+      <div><b>${dinero(div(M.gasto, citas))}</b><span>Costo por cita (inversión en mensajes)</span></div>
+    </div>
+    <div class="caja meta">
+      <div class="pista"><div class="lleno" style="width:${Math.min(100, (tasa || 0) / (metaT * 1.5) * 100)}%;${(tasa || 0) >= metaT ? 'background:var(--organico)' : ''}"></div>
+        <div class="marca" style="left:${(1 / 1.5 * 100).toFixed(1)}%"><span>Meta ${pct(metaT, 0)}</span></div></div>
+      <p>${(tasa || 0) >= metaT
+        ? `La conversión está sobre la meta mínima de ${pct(metaT, 0)}.`
+        : `Para llegar a la meta mínima de ${pct(metaT, 0)} con estas mismas ${fmt(convTotal)} conversaciones, ${D.enCurso ? 'hacen' : 'hacían'} falta <b>${fmt(citasMeta)} citas</b> (se cerraron ${fmt(citas)}). El volumen de mensajes ya está; el siguiente paso es el cierre.`}</p>
+    </div>
+    ${ag.length ? `<div class="trio">
+      <div class="caja"><h3>Citas por servicio</h3><ul class="lista">${porServicio.map(s => `<li><span>${esc(s.k)}</span><b>${fmt(s.n)}</b></li>`).join('')}</ul></div>
+      <div class="caja"><h3>¿De dónde llegó cada cita?</h3><ul class="lista">${porOrigen.map(o => `<li><span>${esc(o.k)}${o.ad ? `<br><span class="sub">Anuncio en Meta · ${dinero(o.ad.gasto)} invertidos${o.costoCita ? ' · ' + dinero(o.costoCita) + ' por cita' : ''}</span>` : ''}</span><b>${fmt(o.n)}</b></li>`).join('')}</ul></div>
+      <div class="caja"><h3>¿Por qué no compraron?</h3>${porMotivo.length
+        ? `<ul class="lista">${porMotivo.map(m => `<li><span>${esc(m.k)}</span><b>${fmt(m.n)}</b></li>`).join('')}</ul>`
+        : '<p class="sub">Todavía no hay motivos registrados. Llenar la columna “¿Por qué no tomó algún servicio?” con las conversaciones que no agendaron nos dirá qué objeción trabajar.</p>'}</div>
+    </div>
+    <div class="tabla"><table>
+      <thead><tr><th>Fecha</th><th>Servicio</th><th style="text-align:left">Llegó por</th></tr></thead>
+      <tbody>${ag.map(a => `<tr><td>${esc(a.fecha)}</td><td>${esc(a.servicio) || '—'}</td><td style="text-align:left">${esc(a.anuncio) || '—'}</td></tr>`).join('')}</tbody>
+    </table></div>` : ''}
+  </section>
+
+  <section>
+    <h2>Seguidores nuevos día a día</h2>
+    <p class="sub">Barras: seguidores por campañas y orgánicos. Línea: inversión del día.</p>
+    <div class="lienzo"><canvas id="gDiario" aria-label="Seguidores nuevos por día"></canvas></div>
+  </section>
+
+  <section>
+    <h2>Campañas</h2>
+    <div class="tabla"><table>
+      <thead><tr><th>Campaña</th><th>Tipo</th><th>Días activa</th><th>Inversión</th><th>Impresiones</th>
+        <th>Conversaciones</th><th>Costo por conversación</th><th>Visitas al perfil</th><th>Seguidores</th><th>Costo por seguidor</th></tr></thead>
+      <tbody>${D.campanas.slice().sort((a, b) => b.gasto - a.gasto).map(c => `<tr>
+        <td>${esc(c.nombre)}</td>
+        <td><span class="etq" style="background:${c.tipo === 'Mensajes' ? 'var(--mensajes)' : 'var(--pagado)'}">${esc(c.tipo)}</span></td>
+        <td>${c.diasActiva} <span class="sub">(${esc(c.desde.slice(8))}/${esc(c.desde.slice(5, 7))} a ${esc(c.hasta.slice(8))}/${esc(c.hasta.slice(5, 7))})</span></td>
+        <td>${dinero(c.gasto)}</td><td>${fmt(c.impresiones)}</td><td>${fmt(c.conversaciones)}</td>
+        <td>${dinero(div(c.gasto, c.conversaciones))}</td><td>${fmt(c.visitasPerfil)}</td><td>${fmt(c.seguidores)}</td>
+        <td>${dinero(div(c.gasto, c.seguidores))}</td></tr>`).join('')}</tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>Sugerencias para ${MESES[Number(m) % 12]}</h2>
+    <div class="sugerencias">
+      <div class="sugerencia" style="--c:var(--organico)">
+        <h3>Contenido</h3>
+        <ul>
+          ${videos[0] ? `<li>Repetir el formato y tema del video con más vistas del mes y probar variaciones del mismo gancho.</li>` : ''}
+          <li>Marcar el pilar de cada publicación (Venta, Crecimiento, Conexión) para comparar cuál trae más alcance y cuál más conversaciones.</li>
+        </ul>
+      </div>
+      <div class="sugerencia" style="--c:var(--pagado)">
+        <h3>Pauta</h3>
+        <ul>
+          ${V.seg ? `<li>La campaña de visitas al perfil es la más eficiente: ${dinero(div(V.gasto, V.seg))} por seguidor${V.conv ? ` y además trajo ${fmt(V.conv)} conversaciones por DM` : ''}. Conviene mantenerla.</li>` : ''}
+          ${M.conv ? `<li>Las campañas de mensajes ya generan conversaciones a ${dinero(div(M.gasto, M.conv))}. Mientras la conversión a cita esté bajo el ${pct(metaT, 0)}, subir presupuesto multiplica conversaciones, no citas: primero ajustar el cierre y después escalar.</li>` : ''}
+          ${origenTop ? `<li>El anuncio “${esc(origenTop.k)}” trajo ${fmt(origenTop.n)} ${origenTop.n === 1 ? 'cita' : 'citas'}${origenTop.costoCita ? ` a ${dinero(origenTop.costoCita)} por cita` : ''}. Darle prioridad en el presupuesto y probar variaciones del mismo mensaje.</li>` : ''}
+          <li>Pautar los contenidos que ya funcionaron orgánicamente (el top de videos) en lugar de piezas nuevas sin probar.</li>
+        </ul>
+      </div>
+      <div class="sugerencia" style="--c:var(--alerta)">
+        <h3>Cierre por WhatsApp: llegar al ${pct(metaT, 0)} mínimo</h3>
+        <p class="sub">Hoy ${pct(tasa)} de las conversaciones termina en cita. Con el mismo volumen, la meta son ${fmt(citasMeta)} citas al mes.</p>
+        <ul>
+          <li>Probar 2 o 3 speech distintos, uno por semana, y anotar cuántas citas sale de cada uno: uno directo (servicio, precio y horarios disponibles en el primer mensaje), uno consultivo (preguntar por la mascota: nombre, edad, carácter, y recomendar el servicio) y uno con oferta de entrada (día de prueba o visita de evaluación).</li>
+          <li>Responder en los primeros 5 minutos. Un mensaje de bienvenida automático en WhatsApp Business ayuda fuera de horario.</li>
+          <li>Terminar cada conversación con una pregunta de agenda concreta, por ejemplo “¿te queda mejor el martes o el jueves?”, en lugar de “cualquier cosa me avisas”.</li>
+          <li>Hacer seguimiento a las 24 y 72 horas a quienes preguntaron y no agendaron.</li>
+          ${porMotivo.length
+            ? `<li>La objeción más repetida fue “${esc(porMotivo[0].k)}” (${fmt(porMotivo[0].n)} ${porMotivo[0].n === 1 ? 'vez' : 'veces'}). Preparar una respuesta para esa objeción y usarla en todas las conversaciones.</li>`
+            : '<li>Anotar en la hoja de agendas el motivo de cada “no” (precio, horario, distancia, solo preguntaba). En un mes sabremos qué objeción trabajar primero.</li>'}
+          ${Number(m) === 10 ? '<li>En noviembre, usar la promo Black Pawzen como argumento de cierre con fecha límite.</li>' : ''}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Cómo leer este reporte</h2>
+    <ul class="metodo">
+      <li>Seguidores por campañas: los “Seguimientos de Instagram” que Meta atribuye a cada anuncio. Orgánicos: el crecimiento neto del mes menos los de campañas.</li>
+      <li>Conversaciones por DM: mensajes que llegaron por la campaña de visitas al perfil, aunque su objetivo no era ese. La conversión a cita usa todas las conversaciones por anuncios.</li>
+      <li>Citas, servicio, motivo de no compra y anuncio de origen: los registra el equipo de PawZen en la hoja de agendas. El costo por cita de cada anuncio se calcula cuando el nombre anotado coincide con el anuncio en Meta.</li>
+      <li>Engagement = interacciones ÷ alcance. Los reels no informan seguidores por post (“no aplica”).</li>
+      <li>Foto a las 72 h: resultados de cada post justo al cumplir 72 horas de publicado. “Pautado antes de las 72 h” indica que ya tenía anuncios al medirlo, así que sus cifras pueden incluir alcance pagado; el promedio de comparación usa solo posts orgánicos de la agencia.</li>
+      <li>Inversión, campañas y seguidores corresponden solo al periodo del reporte. Instagram entrega el total acumulado de cada post, por eso sus cifras se tomaron el ${esc(D.postsMedidosEl)}. En el gráfico diario faltan los orgánicos de los primeros días porque Instagram solo guarda 30 días.</li>
+    </ul>
+  </section>`;
+
+  grafico(D, dinero);
+}
+
+function seccion72(D, posts, deAgencia, dinero, nombreMes) {
+  const lista = D.posts72 || [];
+  if (!lista.length) return '';
+  const info = {}; posts.forEach(p => { info[p.id] = p; });
+  const filas = lista.map(x => {
+    const a = info[x.id] || {};
+    return Object.assign({}, x, { pilar: a.pilar || '', hechoPor: a.hechoPor || 'Agencia', hoyVistas: a.vistas, pautadoDespues: !x.pautadoAlMedir && a.pautado });
+  });
+  const tarde = f => f.horas > 84;
+  const organicas = filas.filter(f => !f.pautadoAlMedir && !tarde(f) && deAgencia(f) && f.vistas != null);
+  const prom = organicas.length ? organicas.reduce((s, f) => s + f.vistas, 0) / organicas.length : null;
+  const mejor = organicas.slice().sort((a, b) => b.vistas - a.vistas)[0];
+  const vs = f => {
+    if (prom == null || f.vistas == null || f.pautadoAlMedir || tarde(f) || !deAgencia(f)) return '<span class="sub">—</span>';
+    const d = f.vistas / prom - 1;
+    return `<b style="color:${d >= 0 ? 'var(--organico)' : 'var(--alerta)'}">${d >= 0 ? '+' : ''}${fmt(d * 100, 0)} %</b>`;
+  };
+  const pauta = f => f.pautadoAlMedir ? `<span class="etq" style="background:var(--pagado)">Pautado antes de 72 h</span>`
+    : (f.pautadoDespues ? 'Orgánico (pautado después)' : 'Orgánico');
+  return `<section>
+    <h2>Cómo arrancó cada contenido: foto a las 72 horas</h2>
+    <p class="sub">Resultados de cada publicación de ${nombreMes} al cumplir 72 horas, para comparar contenidos en igualdad de condiciones.</p>
+    <div class="embudo">
+      <div><b>${fmt(filas.length)}</b><span>Contenidos medidos a las 72 h</span></div>
+      <div><b>${fmt(prom)}</b><span>Vistas promedio a las 72 h (orgánicos de la agencia)</span></div>
+      <div><b>${mejor ? fmt(mejor.vistas) : '—'}</b><span>Mejor arranque${mejor ? ': ' + esc((mejor.texto || '').slice(0, 45)) + '…' : ''}</span></div>
+    </div>
+    <div class="tabla"><table>
+      <thead><tr><th>Publicado</th><th>Post</th><th>Hecho por</th><th>Pilar</th><th>Formato</th><th>Vistas</th><th>Alcance</th>
+        <th>Interacciones</th><th>Guardados</th><th>Compartidos</th><th>Engagement</th><th>vs promedio</th><th>Pauta</th><th>Vistas hoy</th></tr></thead>
+      <tbody>${filas.sort((a, b) => a.publicado < b.publicado ? -1 : 1).map(f => `<tr>
+        <td>${esc(f.publicado.slice(8, 10))}/${esc(f.publicado.slice(5, 7))} ${esc(f.publicado.slice(11))}${tarde(f) ? `<br><span class="sub">medido a las ${fmt(f.horas)} h</span>` : ''}</td>
+        <td class="texto"><a href="${esc(f.link)}" target="_blank" rel="noopener">${esc(f.texto || 'Ver post')}</a></td>
+        <td>${deAgencia(f) ? 'Agencia' : 'PawZen'}</td><td>${esc(f.pilar) || '—'}</td><td>${esc(f.formato)}</td>
+        <td>${fmt(f.vistas)}</td><td>${fmt(f.alcance)}</td><td>${fmt(f.interacciones)}</td><td>${fmt(f.guardados)}</td>
+        <td>${fmt(f.compartidos)}</td><td>${pct(f.engagement)}</td><td>${vs(f)}</td><td>${pauta(f)}</td><td>${fmt(f.hoyVistas)}</td></tr>`).join('')}</tbody>
+    </table></div>
+  </section>`;
+}
+
+function tablaPilares(posts) {
+  const grupos = {};
+  posts.forEach(p => { if (p.pilar) (grupos[p.pilar] = grupos[p.pilar] || []).push(p); });
+  const claves = Object.keys(grupos);
+  if (!claves.length) return '';
+  const prom = (a, f) => { const v = a.map(f).filter(x => x != null); return v.length ? v.reduce((s, x) => s + x, 0) / v.length : null; };
+  return `<h3 style="margin-top:28px">Promedio por pilar</h3><div class="tabla"><table>
+    <thead><tr><th>Pilar</th><th>Posts</th><th>Alcance promedio</th><th>Interacciones promedio</th><th>Engagement promedio</th></tr></thead>
+    <tbody>${claves.map(k => `<tr><td>${esc(k)}</td><td>${grupos[k].length}</td><td>${fmt(prom(grupos[k], p => p.alcance))}</td>
+      <td>${fmt(prom(grupos[k], p => p.interacciones))}</td><td>${pct(prom(grupos[k], p => p.engagement))}</td></tr>`).join('')}</tbody>
+  </table></div>`;
+}
+
+function grafico(D, dinero) {
+  if (!window.Chart) return;
+  const dias = D.diario;
+  Chart.defaults.font.family = '"Nunito Sans", system-ui, sans-serif';
+  Chart.defaults.color = css('--suave');
+  new Chart(document.getElementById('gDiario'), {
+    data: {
+      labels: dias.map(d => d.fecha.slice(8)),
+      datasets: [
+        { type: 'bar', label: 'Por campañas', data: dias.map(d => d.segPagados), backgroundColor: css('--pagado'), stack: 's', borderRadius: 4 },
+        { type: 'bar', label: 'Orgánicos', data: dias.map(d => d.segTotales == null ? null : Math.max(0, d.segTotales - d.segPagados)),
+          backgroundColor: css('--organico'), stack: 's', borderRadius: 4 },
+        { type: 'line', label: 'Inversión', data: dias.map(d => d.gasto), yAxisID: 'y2', borderColor: css('--mostaza'),
+          backgroundColor: css('--mostaza'), tension: .3, pointRadius: 0, borderWidth: 2.5 }
+      ]
+    },
+    options: {
+      maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+      plugins: { legend: { position: 'bottom' },
+        tooltip: { callbacks: { label: c => c.dataset.label + ': ' + (c.dataset.yAxisID === 'y2' ? dinero(c.raw) : (c.raw ?? 'sin dato')) } } },
+      scales: {
+        x: { stacked: true, grid: { display: false } },
+        y: { stacked: true, beginAtZero: true, grid: { color: css('--linea') }, title: { display: true, text: 'Seguidores' } },
+        y2: { position: 'right', beginAtZero: true, grid: { display: false }, title: { display: true, text: 'Inversión' } }
+      }
+    }
+  });
+}
+</script>
+</body>
+</html>

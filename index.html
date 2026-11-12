@@ -94,6 +94,9 @@
   tr:last-child td { border-bottom: 0; }
   a { color: var(--organico); }
   a:focus-visible { outline: 3px solid var(--mostaza); outline-offset: 2px; }
+  .anuncio { display: flex; align-items: center; gap: 12px; min-width: 220px; }
+  .anuncio img { width: 52px; height: 52px; object-fit: cover; border-radius: 10px; background: var(--linea); flex: 0 0 auto; }
+  .anuncio .links { display: flex; gap: 10px; font-size: .85rem; margin-top: 2px; }
   .etq { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: .82rem; font-weight: 700; color: #fff; }
 
   .podio { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 16px; margin-top: 16px; }
@@ -297,7 +300,12 @@ function pintar(D) {
     <p class="sub">Cada anuncio del periodo con su inversión, sus conversaciones y las citas que el equipo de PawZen registró como llegadas por él.</p>
     <div class="tabla"><table>
       <thead><tr><th>Anuncio</th><th>Campaña</th><th>Inversión</th><th>Conversaciones</th><th>Costo por conversación</th><th>Citas</th><th>Costo por cita</th></tr></thead>
-      <tbody>${ads.map(x => `<tr><td>${esc(x.nombre)}</td><td class="texto">${escN(x.campanas)}</td><td>${dinero(x.gasto)}</td>
+      <tbody>${ads.map(x => `<tr><td><div class="anuncio">
+          ${x.miniatura ? `<img src="${esc(x.miniatura)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : ''}
+          <div><span>${escN(x.nombre)}</span>${x.linkPost || x.vistaPrevia ? `<div class="links">
+            ${x.linkPost ? `<a href="${esc(x.linkPost)}" target="_blank" rel="noopener">Ver post</a>` : ''}
+            ${x.vistaPrevia ? `<a href="${esc(x.vistaPrevia)}" target="_blank" rel="noopener">Vista previa</a>` : ''}</div>` : ''}</div>
+        </div></td><td class="texto">${escN(x.campanas)}</td><td>${dinero(x.gasto)}</td>
         <td>${fmt(x.conversaciones)}</td><td>${dinero(div(x.gasto, x.conversaciones))}</td><td>${fmt(x.citas)}</td>
         <td>${x.citas ? dinero(x.gasto / x.citas) : '—'}</td></tr>`).join('')}</tbody>
     </table></div>
